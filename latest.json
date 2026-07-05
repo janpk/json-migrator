@@ -1,0 +1,1 @@
+{"sha": "c0abb73", "timestamp": "2026-07-05T18:53:00+00:00", "instructions": 0.0, "branches": 0.0, "lines": 0.0, "methods": 0.0, "classes": 0.0, "main_loc": 0, "test_loc": 0, "test_ratio": 0.0, "avg_func_lines": 0.0, "max_func_lines": 0, "avg_class_loc": 0.0, "func_per_class": 0.0, "largest_file": 0, "detekt_issues": 0, "churn_added": 0, "churn_deleted": 0, "hotspots": []}
