@@ -1,6 +1,6 @@
 # Metrics Overview
 
-Updated: 2026-07-05T18:53:00+00:00 (`c0abb73`)
+Updated: 2026-07-05T19:57:38+00:00 (`3234a19`)
 
 ## Test Coverage
 
@@ -23,4 +23,10 @@ Updated: 2026-07-05T18:53:00+00:00 (`c0abb73`)
 
 | Hotspot | Changes |
 |---|---|
-| - | - |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/JsonPath.kt` | 2 |
+| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/AddTest.kt` | 1 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/exception/MigrationException.kt` | 1 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Add.kt` | 1 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Document.kt` | 1 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/JsonPathNavigation.kt` | 1 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Operation.kt` | 1 |
