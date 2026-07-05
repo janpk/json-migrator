@@ -1,0 +1,69 @@
+name: Metrics
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: metrics
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history for churn metrics
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+          cache: maven
+
+      # If the detekt gate (or anything else) fails, the job stops here and
+      # nothing is published - the metrics branch only reflects green builds.
+      - name: Build with coverage
+        run: ./mvnw -q verify
+
+      - name: Install badge tooling
+        run: pip install anybadge
+
+      - name: Extract metrics and render dashboard
+        run: python .github/scripts/metrics/generate_metrics.py
+
+      - name: Publish to metrics branch
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          SHA=$(git rev-parse --short HEAD)
+
+          # Fetch the metrics branch, or bootstrap it as an orphan on first run
+          if git fetch origin metrics 2>/dev/null; then
+            git worktree add /tmp/metrics metrics
+          else
+            git worktree add --detach /tmp/metrics
+            git -C /tmp/metrics checkout --orphan metrics
+            git -C /tmp/metrics rm -rf --quiet . || true
+          fi
+
+          mkdir -p /tmp/metrics/badges
+          # Append this run to the history kept on the metrics branch
+          touch /tmp/metrics/history.ndjson
+          tr -d '\n' < out/metrics.json >> /tmp/metrics/history.ndjson
+          echo >> /tmp/metrics/history.ndjson
+
+          cp out/badges/*.svg /tmp/metrics/badges/
+          cp out/README.md    /tmp/metrics/README.md
+          cp out/METRICS.md   /tmp/metrics/METRICS.md
+          cp out/DETEKT.md    /tmp/metrics/DETEKT.md
+          cp out/metrics.json /tmp/metrics/latest.json
+
+          git -C /tmp/metrics add -A
+          git -C /tmp/metrics commit -m "metrics: $SHA" || echo "No changes"
+          git -C /tmp/metrics push origin metrics
