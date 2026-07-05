@@ -16,4 +16,10 @@ and fails fast when a migration cannot be applied safely.
 
 ## Core DSL operations
 
+| Operation | Use when | Example |
+| --- | --- | --- |
+| `add(path) with value` | Add a new field. Fails if the field already exists. | `add("/enabled") with BooleanNode.TRUE` |
+| `set(path) with value` | Create or overwrite a field. | `set("/enabled") with BooleanNode.TRUE` |
+| `copy(from) to target` | Duplicate a value while keeping the source. | `copy("/id") to "/legacyId"` |
+
 ## Dependency

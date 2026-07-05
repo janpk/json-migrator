@@ -10,3 +10,6 @@ class ExistingFieldException(path: String, label: String = "Field") :
 
 class InvalidJsonPathException(path: String, reason: String) :
     MigrationException("Invalid JSON path '$path': $reason")
+
+class MissingFieldException(path: String, label: String = "Field") :
+    FieldMigrationException(path, "$label '$path' does not exist")
