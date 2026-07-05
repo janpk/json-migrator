@@ -2,7 +2,7 @@ package com.mosedotten.json.migrator.engine.operation
 
 import com.mosedotten.json.migrator.engine.exception.InvalidJsonPathException
 
-internal class JsonPath private constructor(val πraw: String, internal val segments: List<String>) {
+internal class JsonPath private constructor(val raw: String, internal val segments: List<String>) {
     val leaf = segments.last()
 
     companion object {
