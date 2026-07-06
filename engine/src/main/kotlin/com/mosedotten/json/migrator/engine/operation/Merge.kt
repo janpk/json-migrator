@@ -14,6 +14,10 @@ class Merge(
         private const val MIN_SOURCES = 2
     }
 
+    init {
+        requireAtLeast(sources.size, MIN_SOURCES, "Merge", "sources")
+    }
+
     override fun steps(document: Document): List<Operation> {
         validateSources(document)
         return listOf(Add(target, StringNode.valueOf(joinSources(document)))) + sources.map { Remove(it) }
@@ -22,7 +26,6 @@ class Merge(
     private fun joinSources(document: Document) = joiner.join(sourcePaths.map { document.require(it, "Source field") })
 
     private fun validateSources(document: Document) {
-        requireAtLeast(sources.size, MIN_SOURCES, "Merge", "sources")
         sourcePaths.firstOrNull { !document.exists(it) }?.let { throw MissingFieldException(it.raw, "Source field") }
     }
 

@@ -16,6 +16,10 @@ class Split(
     private val sourcePath = JsonPath.parse(source)
     private val targetPaths = targets.map(JsonPath::parse)
 
+    init {
+        requireAtLeast(targets.size, MIN_TARGETS, "Split", "targets")
+    }
+
     override fun steps(document: Document): List<Operation> {
         if (!document.exists(sourcePath)) throw MissingFieldException(source, "Source field")
         val pieces = splitter.split(document.require(sourcePath, "Source field"))
@@ -25,7 +29,6 @@ class Split(
     }
 
     private fun validatePieces(pieces: List<String>) {
-        requireAtLeast(targets.size, MIN_TARGETS, "Split", "targets")
         if (pieces.size != targets.size) {
             throw InvalidFieldValueException(
                 source,
