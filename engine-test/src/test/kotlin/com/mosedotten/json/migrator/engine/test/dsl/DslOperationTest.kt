@@ -6,6 +6,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.remove
 import com.mosedotten.json.migrator.engine.dsl.clause.set
+import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -83,6 +84,18 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 merge("/firstName", "/lastName") into "/fullName"
+            }
+        }
+    }
+
+    @Test
+    fun `split divides a field and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"fullName":"John Doe"}""",
+            """{"schemaVersion":2,"firstName":"John","lastName":"Doe"}""",
+        ) {
+            migration(1, 2) {
+                split("/fullName").into("/firstName", "/lastName")
             }
         }
     }

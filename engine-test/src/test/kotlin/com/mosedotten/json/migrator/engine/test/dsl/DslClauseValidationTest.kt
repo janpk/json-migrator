@@ -5,6 +5,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.copy
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.set
+import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.DslClauseAlreadyCompletedException
 import com.mosedotten.json.migrator.engine.exception.IncompleteDslClauseException
@@ -133,6 +134,30 @@ internal class DslClauseValidationTest : JsonFixtures() {
                     val clause = merge("/firstName", "/lastName")
                     clause into "/fullName"
                     clause into "/displayName"
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a split without targets fails the migration`() {
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj("""{"schemaVersion":1,"fullName":"John Doe"}""")) {
+                migration(1, 2) {
+                    split("/fullName")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `completing a split clause twice fails the migration`() {
+        assertThrows<DslClauseAlreadyCompletedException> {
+            schema(obj("""{"schemaVersion":1,"fullName":"John Doe"}""")) {
+                migration(1, 2) {
+                    val clause = split("/fullName")
+                    clause.into("/firstName", "/lastName")
+                    clause.into("/a", "/b")
                 }
             }
         }
