@@ -12,4 +12,7 @@ class Document(private val root: ObjectNode) {
     internal fun get(path: JsonPath): JsonNode? = path.parentObjectIn(root)?.get(path.leaf)
     internal fun require(path: JsonPath, label: String = "Field") =
         get(path) ?: throw MissingFieldException(path.raw, label)
+    internal fun remove(path: JsonPath) {
+        path.parentObjectIn(root)?.remove(path.leaf)
+    }
 }

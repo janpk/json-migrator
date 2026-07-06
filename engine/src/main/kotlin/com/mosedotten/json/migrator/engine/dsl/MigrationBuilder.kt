@@ -14,6 +14,10 @@ class MigrationBuilder(private val from: Int, private val to: Int) {
         pendingClauses += clause
     }
 
+    internal fun record(operation: Operation) {
+        operations += operation
+    }
+
     internal fun complete(clause: PendingClause, operation: Operation, lazyMessage: () -> String) {
         if (clause !in pendingClauses) {
             throw DslClauseAlreadyCompletedException(lazyMessage())

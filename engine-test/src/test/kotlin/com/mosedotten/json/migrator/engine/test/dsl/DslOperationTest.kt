@@ -2,6 +2,8 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.move
+import com.mosedotten.json.migrator.engine.dsl.clause.remove
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
 import org.junit.jupiter.api.DisplayName
@@ -44,6 +46,30 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 copy("/id") to "/legacyId"
+            }
+        }
+    }
+
+    @Test
+    fun `remove deletes a field and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"name":"John Doe","deprecated":true}""",
+            """{"schemaVersion":2,"name":"John Doe"}""",
+        ) {
+            migration(1, 2) {
+                remove("/deprecated")
+            }
+        }
+    }
+
+    @Test
+    fun `move relocates a field and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"name":"John Doe","age":30}""",
+            """{"schemaVersion":2,"fullName":"John Doe","age":30}""",
+        ) {
+            migration(1, 2) {
+                move("/name") to "/fullName"
             }
         }
     }

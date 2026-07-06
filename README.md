@@ -21,5 +21,7 @@ and fails fast when a migration cannot be applied safely.
 | `add(path) with value` | Add a new field. Fails if the field already exists. | `add("/enabled") with BooleanNode.TRUE` |
 | `set(path) with value` | Create or overwrite a field. | `set("/enabled") with BooleanNode.TRUE` |
 | `copy(from) to target` | Duplicate a value while keeping the source. | `copy("/id") to "/legacyId"` |
+| `move(from) to target` | Rename, nest, flatten, or relocate a value. | `move("/city") to "/address/city"` |
+| `remove(path)` | Delete an existing field. | `remove("/deprecated")` |
 
 ## Dependency
