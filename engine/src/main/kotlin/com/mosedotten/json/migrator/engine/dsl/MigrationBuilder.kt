@@ -35,4 +35,18 @@ class MigrationBuilder(private val from: Int, private val to: Int) {
         }
         return Migration(from, to, operations.toList(), versionField, allowNoVersionField, execution)
     }
+
+    internal fun nestedOperations(block: MigrationBuilder.() -> Unit) = MigrationBuilder(from, to)
+        .apply(block)
+        .also { it.validateNestedClauses() }
+        .operations
+        .toList()
+
+    private fun MigrationBuilder.validateNestedClauses() {
+        if (pendingClauses.isEmpty()) return
+        throw IncompleteDslClauseException(
+            "nested block has incomplete operations: " +
+                pendingClauses.joinToString { it.describe() },
+        )
+    }
 }

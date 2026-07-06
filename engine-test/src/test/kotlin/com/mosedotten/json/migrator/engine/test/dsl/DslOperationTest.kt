@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.remove
@@ -96,6 +97,21 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 split("/fullName").into("/firstName", "/lastName")
+            }
+        }
+    }
+
+    @Test
+    @Suppress("LongMethod") // Test methods are naturally longer
+    fun `forEach applies operations to each array element and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"users":[{"name":"John"},{"name":"Jane"}]}""",
+            """{"schemaVersion":2,"users":[{"fullName":"John"},{"fullName":"Jane"}]}""",
+        ) {
+            migration(1, 2) {
+                forEach("/users") {
+                    move("/name") to "/fullName"
+                }
             }
         }
     }

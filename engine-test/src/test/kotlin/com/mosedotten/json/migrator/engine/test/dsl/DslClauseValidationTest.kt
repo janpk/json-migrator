@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.set
@@ -158,6 +159,19 @@ internal class DslClauseValidationTest : JsonFixtures() {
                     val clause = split("/fullName")
                     clause.into("/firstName", "/lastName")
                     clause.into("/a", "/b")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a forEach with an incomplete nested clause fails the migration`() {
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj("""{"schemaVersion":1,"users":[{"name":"John"}]}""")) {
+                migration(1, 2) {
+                    forEach("/users") {
+                        move("/name")
+                    }
                 }
             }
         }
