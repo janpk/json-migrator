@@ -1,6 +1,6 @@
 # Metrics Overview
 
-Updated: 2026-07-06T17:46:18+00:00 (`6d5eb9f`)
+Updated: 2026-07-06T17:59:15+00:00 (`3e54268`)
 
 ## Tests
 
@@ -28,9 +28,9 @@ Updated: 2026-07-06T17:46:18+00:00 (`6d5eb9f`)
 | Hotspot | Changes |
 |---|---|
 | `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslOperationTest.kt` | 7 |
+| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/OperationDescribeTest.kt` | 6 |
 | `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslClauseValidationTest.kt` | 6 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/exception/MigrationException.kt` | 6 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/OperationDescribeTest.kt` | 5 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Document.kt` | 5 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/JsonPath.kt` | 3 |
 | `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/util/JsonFixtures.kt` | 3 |
