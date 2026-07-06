@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.createObject
 import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
@@ -10,7 +11,10 @@ import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.DslClauseAlreadyCompletedException
 import com.mosedotten.json.migrator.engine.exception.IncompleteDslClauseException
+import com.mosedotten.json.migrator.engine.exception.InvalidFieldTypeException
+import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -174,6 +178,19 @@ internal class DslClauseValidationTest : JsonFixtures() {
                     }
                 }
             }
+        }
+    }
+
+    @Test
+    fun `createObject fails when the path exists as a non-object`() {
+        assertThrows<MigrationExecutionException> {
+            schema(obj("""{"schemaVersion":1,"address":"123"}""")) {
+                migration(1, 2) {
+                    createObject("/address")
+                }
+            }
+        }.also {
+            assertEquals(InvalidFieldTypeException::class, it.failure::class)
         }
     }
 }

@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.createObject
 import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
@@ -112,6 +113,18 @@ internal class DslOperationTest : JsonFixtures() {
                 forEach("/users") {
                     move("/name") to "/fullName"
                 }
+            }
+        }
+    }
+
+    @Test
+    fun `createObject ensures an object exists and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"name":"John"}""",
+            """{"schemaVersion":2,"name":"John","address":{}}""",
+        ) {
+            migration(1, 2) {
+                createObject("/address")
             }
         }
     }
