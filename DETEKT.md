@@ -40,7 +40,7 @@
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 17:03:13 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 17:12:18 UTC
 
 
 ---
@@ -51,27 +51,27 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 17:03:
 
 ## Metrics
 
-* 9 number of properties
+* 11 number of properties
 
-* 119 number of functions
+* 131 number of functions
 
-* 16 number of classes
+* 18 number of classes
 
 * 3 number of packages
 
-* 15 number of kt files
+* 17 number of kt files
 
 ## Complexity Report
 
-* 1,357 lines of code (loc)
+* 1,488 lines of code (loc)
 
-* 1,195 source lines of code (sloc)
+* 1,308 source lines of code (sloc)
 
-* 910 logical lines of code (lloc)
+* 983 logical lines of code (lloc)
 
-* 5 comment lines of code (cloc)
+* 6 comment lines of code (cloc)
 
-* 123 cyclomatic complexity (mcc)
+* 133 cyclomatic complexity (mcc)
 
 * 0 cognitive complexity
 
@@ -85,5 +85,5 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 17:03:
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 17:03:22 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 17:12:27 UTC
 
