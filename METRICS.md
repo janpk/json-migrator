@@ -1,6 +1,6 @@
 # Metrics Overview
 
-Updated: 2026-07-06T11:10:49+00:00 (`a2d09fa`)
+Updated: 2026-07-06T11:27:10+00:00 (`e932d0e`)
 
 ## Test Coverage
 
@@ -23,13 +23,13 @@ Updated: 2026-07-06T11:10:49+00:00 (`a2d09fa`)
 
 | Hotspot | Changes |
 |---|---|
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Document.kt` | 3 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/exception/MigrationException.kt` | 3 |
+| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslClauseValidationTest.kt` | 2 |
+| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslOperationTest.kt` | 2 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/dsl/MigrationBuilder.kt` | 2 |
 | `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/util/JsonFixtures.kt` | 2 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Add.kt` | 2 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Copy.kt` | 2 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Operation.kt` | 2 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Set.kt` | 2 |
-| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Document.kt` | 2 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/AddTest.kt` | 2 |
-| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/JsonPath.kt` | 2 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslClauseValidationTest.kt` | 1 |
