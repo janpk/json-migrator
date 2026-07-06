@@ -8,6 +8,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.remove
 import com.mosedotten.json.migrator.engine.dsl.clause.removeIfEmpty
+import com.mosedotten.json.migrator.engine.dsl.clause.requireExists
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
@@ -150,6 +151,18 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 removeIfEmpty("/profile/contact", cascade = true)
+            }
+        }
+    }
+
+    @Test
+    fun `requireExists passes for an existing field and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"id":"123","name":"John"}""",
+            """{"schemaVersion":2,"id":"123","name":"John"}""",
+        ) {
+            migration(1, 2) {
+                requireExists("/id")
             }
         }
     }

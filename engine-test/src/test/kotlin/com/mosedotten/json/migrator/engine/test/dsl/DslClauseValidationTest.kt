@@ -6,6 +6,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.createObject
 import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
+import com.mosedotten.json.migrator.engine.dsl.clause.requireExists
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.dsl.schema
@@ -13,6 +14,7 @@ import com.mosedotten.json.migrator.engine.exception.DslClauseAlreadyCompletedEx
 import com.mosedotten.json.migrator.engine.exception.IncompleteDslClauseException
 import com.mosedotten.json.migrator.engine.exception.InvalidFieldTypeException
 import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException
+import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -191,6 +193,19 @@ internal class DslClauseValidationTest : JsonFixtures() {
             }
         }.also {
             assertEquals(InvalidFieldTypeException::class, it.failure::class)
+        }
+    }
+
+    @Test
+    fun `requireExists fails when the required field is missing`() {
+        assertThrows<MigrationExecutionException> {
+            schema(obj("""{"schemaVersion":1,"name":"John"}""")) {
+                migration(1, 2) {
+                    requireExists("/id")
+                }
+            }
+        }.also {
+            assertEquals(MissingFieldException::class, it.failure::class)
         }
     }
 }

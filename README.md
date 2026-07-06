@@ -28,5 +28,6 @@ and fails fast when a migration cannot be applied safely.
 | `forEach(path) { ... }` | Apply operations to every object in an array. | `forEach("/users") { move("/name") to "/fullName" }` |
 | `createObject(path)` | Ensure an object exists at a given path. | `createObject("/address")` |
 | `removeIfEmpty(path, cascade)` | Remove an object or array if it becomes empty after migration. | `removeIfEmpty("/address")` |
+| `requireExists(path)` | Validate that a required field exists before continuing. | `requireExists("/id")` |
 
 ## Dependency
