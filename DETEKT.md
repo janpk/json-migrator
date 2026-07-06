@@ -8,25 +8,25 @@
 
 * 35 number of properties
 
-* 121 number of functions
+* 122 number of functions
 
 * 54 number of classes
 
 * 4 number of packages
 
-* 44 number of kt files
+* 45 number of kt files
 
 ## Complexity Report
 
-* 891 lines of code (loc)
+* 899 lines of code (loc)
 
-* 653 source lines of code (sloc)
+* 658 source lines of code (sloc)
 
-* 420 logical lines of code (lloc)
+* 421 logical lines of code (lloc)
 
 * 1 comment lines of code (cloc)
 
-* 170 cyclomatic complexity (mcc)
+* 171 cyclomatic complexity (mcc)
 
 * 32 cognitive complexity
 
@@ -34,13 +34,13 @@
 
 * 0% comment source ratio
 
-* 404 mcc per 1,000 lloc
+* 406 mcc per 1,000 lloc
 
 * 0 code smells per 1,000 lloc
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:18:30 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:24:09 UTC
 
 
 ---
@@ -51,27 +51,27 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:18:
 
 ## Metrics
 
-* 15 number of properties
+* 22 number of properties
 
-* 194 number of functions
+* 202 number of functions
 
-* 24 number of classes
+* 25 number of classes
 
 * 3 number of packages
 
-* 23 number of kt files
+* 24 number of kt files
 
 ## Complexity Report
 
-* 2,249 lines of code (loc)
+* 2,382 lines of code (loc)
 
-* 1,984 source lines of code (sloc)
+* 2,106 source lines of code (sloc)
 
-* 1,524 logical lines of code (lloc)
+* 1,596 logical lines of code (lloc)
 
-* 13 comment lines of code (cloc)
+* 14 comment lines of code (cloc)
 
-* 200 cyclomatic complexity (mcc)
+* 208 cyclomatic complexity (mcc)
 
 * 3 cognitive complexity
 
@@ -79,11 +79,11 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:18:
 
 * 0% comment source ratio
 
-* 131 mcc per 1,000 lloc
+* 130 mcc per 1,000 lloc
 
 * 0 code smells per 1,000 lloc
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:18:40 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:24:20 UTC
 
