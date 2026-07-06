@@ -23,5 +23,6 @@ and fails fast when a migration cannot be applied safely.
 | `copy(from) to target` | Duplicate a value while keeping the source. | `copy("/id") to "/legacyId"` |
 | `move(from) to target` | Rename, nest, flatten, or relocate a value. | `move("/city") to "/address/city"` |
 | `remove(path)` | Delete an existing field. | `remove("/deprecated")` |
+| `merge(sources...) into target` | Join multiple values into one string field. | `merge("/firstName", "/lastName") into "/fullName"` |
 
 ## Dependency
