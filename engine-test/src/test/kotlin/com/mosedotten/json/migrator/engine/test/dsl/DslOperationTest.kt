@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.remove
 import com.mosedotten.json.migrator.engine.dsl.clause.set
@@ -70,6 +71,18 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 move("/name") to "/fullName"
+            }
+        }
+    }
+
+    @Test
+    fun `merge combines fields and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"firstName":"John","lastName":"Doe"}""",
+            """{"schemaVersion":2,"fullName":"John Doe"}""",
+        ) {
+            migration(1, 2) {
+                merge("/firstName", "/lastName") into "/fullName"
             }
         }
     }

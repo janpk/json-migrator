@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.schema
@@ -108,6 +109,30 @@ internal class DslClauseValidationTest : JsonFixtures() {
                     val clause = move("/name")
                     clause to "/fullName"
                     clause to "/displayName"
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a merge without a target fails the migration`() {
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj("""{"schemaVersion":1,"firstName":"John","lastName":"Doe"}""")) {
+                migration(1, 2) {
+                    merge("/firstName", "/lastName")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `completing a merge clause twice fails the migration`() {
+        assertThrows<DslClauseAlreadyCompletedException> {
+            schema(obj("""{"schemaVersion":1,"firstName":"John","lastName":"Doe"}""")) {
+                migration(1, 2) {
+                    val clause = merge("/firstName", "/lastName")
+                    clause into "/fullName"
+                    clause into "/displayName"
                 }
             }
         }

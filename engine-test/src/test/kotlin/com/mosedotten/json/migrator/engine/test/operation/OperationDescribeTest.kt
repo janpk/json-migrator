@@ -3,6 +3,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 import com.mosedotten.json.migrator.engine.operation.Add
 import com.mosedotten.json.migrator.engine.operation.Copy
 import com.mosedotten.json.migrator.engine.operation.Document
+import com.mosedotten.json.migrator.engine.operation.Merge
 import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Operation
 import com.mosedotten.json.migrator.engine.operation.Remove
@@ -25,9 +26,16 @@ internal class OperationDescribeTest {
     }
 
     @Test
+    fun `describes composite operations with user-facing DSL syntax`() {
+        assertEquals("merge(\"/firstName\", \"/lastName\") into \"/fullName\"", merge().describe())
+    }
+
+    @Test
     fun `falls back to class name when operation does not override describe`() {
         assertEquals("FakeOperation", FakeOperation().describe())
     }
+
+    private fun merge() = Merge(listOf("/firstName", "/lastName"), "/fullName")
 
     private class FakeOperation : Operation {
         override fun apply(document: Document) = Unit
