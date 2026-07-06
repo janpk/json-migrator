@@ -26,5 +26,6 @@ and fails fast when a migration cannot be applied safely.
 | `merge(sources...) into target` | Join multiple values into one string field. | `merge("/firstName", "/lastName") into "/fullName"` |
 | `split(source).into(targets...)` | Split one string field into multiple fields. | `split("/fullName").into("/firstName", "/lastName")` |
 | `forEach(path) { ... }` | Apply operations to every object in an array. | `forEach("/users") { move("/name") to "/fullName" }` |
+| `createObject(path)` | Ensure an object exists at a given path. | `createObject("/address")` |
 
 ## Dependency

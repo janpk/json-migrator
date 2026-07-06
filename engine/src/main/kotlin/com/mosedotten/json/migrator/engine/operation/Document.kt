@@ -26,4 +26,5 @@ class Document(private val root: ObjectNode) {
         if (element !is ObjectNode) throw InvalidFieldTypeException("${path.raw}[$index]", "OBJECT")
         return Document(element)
     }
+    internal fun ensureObject(path: JsonPath) = ensureObjectPathIn(root, path)
 }

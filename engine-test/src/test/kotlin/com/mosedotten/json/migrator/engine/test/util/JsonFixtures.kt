@@ -26,6 +26,9 @@ internal abstract class JsonFixtures {
         assertThrows<T> { Document(obj(input)).apply(operation) }
     }
 
+    protected fun assertUnchanged(input: String, operation: Document.() -> Unit) =
+        assertMigrates(input, input, operation)
+
     protected fun assertSchemaMigrates(
         input: String,
         expected: String,
