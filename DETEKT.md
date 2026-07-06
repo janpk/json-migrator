@@ -6,41 +6,41 @@
 
 ## Metrics
 
-* 5 number of properties
+* 13 number of properties
 
-* 18 number of functions
+* 52 number of functions
 
-* 11 number of classes
+* 27 number of classes
 
-* 2 number of packages
+* 4 number of packages
 
-* 8 number of kt files
+* 17 number of kt files
 
 ## Complexity Report
 
-* 131 lines of code (loc)
+* 418 lines of code (loc)
 
-* 93 source lines of code (sloc)
+* 312 source lines of code (sloc)
 
-* 59 logical lines of code (lloc)
+* 205 logical lines of code (lloc)
 
-* 0 comment lines of code (cloc)
+* 1 comment lines of code (cloc)
 
-* 27 cyclomatic complexity (mcc)
+* 73 cyclomatic complexity (mcc)
 
-* 6 cognitive complexity
+* 14 cognitive complexity
 
 * 0 number of total code smells
 
 * 0% comment source ratio
 
-* 457 mcc per 1,000 lloc
+* 356 mcc per 1,000 lloc
 
 * 0 code smells per 1,000 lloc
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-05 21:00:50 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 11:10:38 UTC
 
 
 ---
@@ -51,27 +51,27 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-05 21:00:
 
 ## Metrics
 
-* 2 number of properties
+* 6 number of properties
 
-* 17 number of functions
+* 37 number of functions
 
-* 4 number of classes
+* 8 number of classes
 
-* 2 number of packages
+* 3 number of packages
 
-* 4 number of kt files
+* 8 number of kt files
 
 ## Complexity Report
 
-* 193 lines of code (loc)
+* 501 lines of code (loc)
 
-* 166 source lines of code (sloc)
+* 442 source lines of code (sloc)
 
-* 122 logical lines of code (lloc)
+* 297 logical lines of code (lloc)
 
-* 0 comment lines of code (cloc)
+* 3 comment lines of code (cloc)
 
-* 17 cyclomatic complexity (mcc)
+* 38 cyclomatic complexity (mcc)
 
 * 0 cognitive complexity
 
@@ -79,11 +79,11 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-05 21:00:
 
 * 0% comment source ratio
 
-* 139 mcc per 1,000 lloc
+* 127 mcc per 1,000 lloc
 
 * 0 code smells per 1,000 lloc
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-05 21:00:55 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 11:10:45 UTC
 
