@@ -1,5 +1,7 @@
 package com.mosedotten.json.migrator.engine.test.util
 
+import com.mosedotten.json.migrator.engine.dsl.SchemaBuilder
+import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.operation.Document
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
@@ -22,5 +24,15 @@ internal abstract class JsonFixtures {
         noinline operation: Document.() -> Unit,
     ) {
         assertThrows<T> { Document(obj(input)).apply(operation) }
+    }
+
+    protected fun assertSchemaMigrates(
+        input: String,
+        expected: String,
+        allowNoVersionField: Boolean = false,
+        block: SchemaBuilder.() -> Unit,
+    ) {
+        val actual = schema(obj(input), allowNoVersionField = allowNoVersionField, block = block)
+        assertEquals(mapper.readTree(expected), actual)
     }
 }

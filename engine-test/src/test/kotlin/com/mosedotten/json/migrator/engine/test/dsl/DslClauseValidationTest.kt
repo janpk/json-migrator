@@ -1,0 +1,90 @@
+package com.mosedotten.json.migrator.engine.test.dsl
+
+import com.mosedotten.json.migrator.engine.dsl.clause.add
+import com.mosedotten.json.migrator.engine.dsl.clause.copy
+import com.mosedotten.json.migrator.engine.dsl.clause.set
+import com.mosedotten.json.migrator.engine.dsl.schema
+import com.mosedotten.json.migrator.engine.exception.DslClauseAlreadyCompletedException
+import com.mosedotten.json.migrator.engine.exception.IncompleteDslClauseException
+import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import tools.jackson.databind.node.BooleanNode
+
+@DisplayName("When a DSL clause is incomplete, then")
+@Suppress("LargeClass") // An incomplete + double-completion pair per clause accumulates; acceptable for test classes
+internal class DslClauseValidationTest : JsonFixtures() {
+
+    @Test
+    fun `an add without a value fails the migration`() {
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
+                migration(1, 2) {
+                    add("/enabled")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `completing an add clause twice fails the migration`() {
+        assertThrows<DslClauseAlreadyCompletedException> {
+            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
+                migration(1, 2) {
+                    val clause = add("/enabled")
+                    clause with BooleanNode.TRUE
+                    clause with BooleanNode.FALSE
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a set without a value fails the migration`() {
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
+                migration(1, 2) {
+                    set("/enabled")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `completing a set clause twice fails the migration`() {
+        assertThrows<DslClauseAlreadyCompletedException> {
+            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
+                migration(1, 2) {
+                    val clause = set("/enabled")
+                    clause with BooleanNode.TRUE
+                    clause with BooleanNode.FALSE
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a copy without a target fails the migration`() {
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj("""{"schemaVersion":1,"id":"123"}""")) {
+                migration(1, 2) {
+                    copy("/id")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `completing a copy clause twice fails the migration`() {
+        assertThrows<DslClauseAlreadyCompletedException> {
+            schema(obj("""{"schemaVersion":1,"id":"123"}""")) {
+                migration(1, 2) {
+                    val clause = copy("/id")
+                    clause to "/legacyId"
+                    clause to "/backupId"
+                }
+            }
+        }
+    }
+}

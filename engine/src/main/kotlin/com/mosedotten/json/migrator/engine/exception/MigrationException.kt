@@ -13,3 +13,22 @@ class InvalidJsonPathException(path: String, reason: String) :
 
 class MissingFieldException(path: String, label: String = "Field") :
     FieldMigrationException(path, "$label '$path' does not exist")
+
+class MigrationExecutionException(
+    val fromVersion: Int,
+    val toVersion: Int,
+    val operationIndex: Int,
+    val operationDescription: String,
+    val failure: MigrationException,
+) : MigrationException(
+    "Migration $fromVersion -> $toVersion failed at operation #$operationIndex " +
+        "($operationDescription): ${failure.message}",
+    failure,
+)
+
+class MigrationVersionException(fromVersion: Int, toVersion: Int, message: String) :
+    MigrationException("Migration $fromVersion -> $toVersion failed version validation: $message")
+
+class IncompleteDslClauseException(message: String) : MigrationException(message)
+
+class DslClauseAlreadyCompletedException(message: String) : MigrationException(message)

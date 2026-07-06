@@ -10,4 +10,6 @@ class Add(private val path: String, private val value: JsonNode) : Operation {
         if (document.exists(jsonPath)) throw ExistingFieldException(path)
         document.set(jsonPath, value)
     }
+
+    override fun describe() = "add(\"$path\")"
 }

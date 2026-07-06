@@ -20,4 +20,6 @@ class Copy(private val from: String, private val to: String) : Operation {
     private fun validateTarget(document: Document) {
         if (document.exists(target)) throw ExistingFieldException(to, "Target field")
     }
+
+    override fun describe() = "copy(\"$from\") to \"$to\""
 }
