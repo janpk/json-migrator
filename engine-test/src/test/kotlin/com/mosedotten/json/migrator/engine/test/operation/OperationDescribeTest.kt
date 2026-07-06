@@ -9,6 +9,7 @@ import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Operation
 import com.mosedotten.json.migrator.engine.operation.Remove
 import com.mosedotten.json.migrator.engine.operation.RemoveIfEmpty
+import com.mosedotten.json.migrator.engine.operation.RequireExists
 import com.mosedotten.json.migrator.engine.operation.Set
 import com.mosedotten.json.migrator.engine.operation.Split
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -26,6 +27,8 @@ internal class OperationDescribeTest {
         assertEquals("move(\"/name\") to \"/fullName\"", Move("/name", "/fullName").describe())
         assertEquals("remove(\"/deprecated\")", Remove("/deprecated").describe())
         assertEquals("set(\"/enabled\")", Set("/enabled", BooleanNode.TRUE).describe())
+        assertEquals("removeIfEmpty(\"/deprecated\", cascade = false)", RemoveIfEmpty("/deprecated").describe())
+        assertEquals("requireExists(\"/deprecated\")", RequireExists("/deprecated").describe())
     }
 
     @Test
