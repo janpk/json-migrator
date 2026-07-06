@@ -1,5 +1,6 @@
 package com.mosedotten.json.migrator.engine.test.dsl
 
+import com.mosedotten.json.migrator.engine.dsl.MigrationBuilder
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
 import com.mosedotten.json.migrator.engine.dsl.clause.createObject
@@ -32,13 +33,10 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `an add without a value fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
-                migration(1, 2) {
-                    add("/enabled")
-                }
-            }
-        }
+        assertEquals(
+            "Migration 1 -> 2 has incomplete operations: add(\"/enabled\") is missing `with <value>`",
+            incompleteMessage("""{"schemaVersion":1,"name":"John Doe"}""") { add("/enabled") },
+        )
     }
 
     @Test
@@ -56,13 +54,10 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `a set without a value fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
-                migration(1, 2) {
-                    set("/enabled")
-                }
-            }
-        }
+        assertEquals(
+            "Migration 1 -> 2 has incomplete operations: set(\"/enabled\") is missing `with <value>`",
+            incompleteMessage("""{"schemaVersion":1,"name":"John Doe"}""") { set("/enabled") },
+        )
     }
 
     @Test
@@ -80,13 +75,10 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `a copy without a target fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"id":"123"}""")) {
-                migration(1, 2) {
-                    copy("/id")
-                }
-            }
-        }
+        assertEquals(
+            "Migration 1 -> 2 has incomplete operations: copy(\"/id\") is missing `to <target>`",
+            incompleteMessage("""{"schemaVersion":1,"id":"123"}""") { copy("/id") },
+        )
     }
 
     @Test
@@ -104,13 +96,10 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `a move without a target fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
-                migration(1, 2) {
-                    move("/name")
-                }
-            }
-        }
+        assertEquals(
+            "Migration 1 -> 2 has incomplete operations: move(\"/name\") is missing `to <target>`",
+            incompleteMessage("""{"schemaVersion":1,"name":"John Doe"}""") { move("/name") },
+        )
     }
 
     @Test
@@ -128,13 +117,13 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `a merge without a target fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"firstName":"John","lastName":"Doe"}""")) {
-                migration(1, 2) {
-                    merge("/firstName", "/lastName")
-                }
-            }
-        }
+        assertEquals(
+            "Migration 1 -> 2 has incomplete operations: " +
+                "merge(\"/firstName\", \"/lastName\") is missing `into <target>`",
+            incompleteMessage("""{"schemaVersion":1,"firstName":"John","lastName":"Doe"}""") {
+                merge("/firstName", "/lastName")
+            },
+        )
     }
 
     @Test
@@ -152,13 +141,10 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `a split without targets fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"fullName":"John Doe"}""")) {
-                migration(1, 2) {
-                    split("/fullName")
-                }
-            }
-        }
+        assertEquals(
+            "Migration 1 -> 2 has incomplete operations: split(\"/fullName\") is missing `into <targets>`",
+            incompleteMessage("""{"schemaVersion":1,"fullName":"John Doe"}""") { split("/fullName") },
+        )
     }
 
     @Test
@@ -176,15 +162,12 @@ internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `a forEach with an incomplete nested clause fails the migration`() {
-        assertThrows<IncompleteDslClauseException> {
-            schema(obj("""{"schemaVersion":1,"users":[{"name":"John"}]}""")) {
-                migration(1, 2) {
-                    forEach("/users") {
-                        move("/name")
-                    }
-                }
-            }
-        }
+        assertEquals(
+            "nested block has incomplete operations: move(\"/name\") is missing `to <target>`",
+            incompleteMessage("""{"schemaVersion":1,"users":[{"name":"John"}]}""") {
+                forEach("/users") { move("/name") }
+            },
+        )
     }
 
     @Test
@@ -238,4 +221,11 @@ internal class DslClauseValidationTest : TestFixtures() {
             assertEquals(MissingFieldException::class, it.failure::class)
         }
     }
+
+    // Runs a single 1 -> 2 migration expected to be rejected for an incomplete clause,
+    // returning the exception message so tests can assert the clause's describe() output.
+    private fun incompleteMessage(json: String, block: MigrationBuilder.() -> Unit) =
+        assertThrows<IncompleteDslClauseException> {
+            schema(obj(json)) { migration(1, 2, block) }
+        }.message
 }

@@ -1,6 +1,7 @@
 package com.mosedotten.json.migrator.engine.test.dsl
 
 import com.mosedotten.json.migrator.engine.dsl.clause.add
+import com.mosedotten.json.migrator.engine.dsl.clause.remove
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.ExistingFieldException
 import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException
@@ -37,6 +38,28 @@ internal class DslSchemaTest : TestFixtures() {
             """{"schemaVersion":1,"name":"John Doe"}""",
             """{"schemaVersion":1,"name":"John Doe"}""",
         ) {}
+    }
+
+    @Test
+    fun `a downgrade migration is supported`() {
+        val root = obj("""{"schemaVersion":2,"name":"John Doe","enabled":true}""")
+        schema(root) {
+            migration(2, 1) {
+                remove("/enabled")
+            }
+        }
+        assertEquals(obj("""{"schemaVersion":1,"name":"John Doe"}"""), root)
+    }
+
+    @Test
+    fun `a custom version field name is honored`() {
+        val root = obj("""{"version":1,"name":"John Doe"}""")
+        schema(root, versionField = "version") {
+            migration(1, 2) {
+                add("/enabled") with BooleanNode.TRUE
+            }
+        }
+        assertEquals(obj("""{"version":2,"name":"John Doe","enabled":true}"""), root)
     }
 
     @Test

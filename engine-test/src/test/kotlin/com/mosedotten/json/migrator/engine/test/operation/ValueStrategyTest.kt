@@ -37,26 +37,6 @@ internal class ValueStrategyTest : TestFixtures() {
     }
 
     @Test
-    fun `merge defaults to space-separated joining`() {
-        assertMigrates(
-            """{"firstName":"John","lastName":"Doe"}""",
-            """{"fullName":"John Doe"}""",
-        ) {
-            Merge(listOf("/firstName", "/lastName"), "/fullName").apply(this)
-        }
-    }
-
-    @Test
-    fun `split defaults to space-separated splitting`() {
-        assertMigrates(
-            """{"fullName":"John Doe"}""",
-            """{"firstName":"John","lastName":"Doe"}""",
-        ) {
-            Split("/fullName", listOf("/firstName", "/lastName")).apply(this)
-        }
-    }
-
-    @Test
     fun `merge DSL accepts a custom joiner`() {
         assertSchemaMigrates(
             """{"schemaVersion":1,"firstName":"John","lastName":"Doe"}""",

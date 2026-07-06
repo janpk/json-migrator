@@ -19,46 +19,51 @@ import com.mosedotten.json.migrator.engine.operation.Transform
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import tools.jackson.databind.node.BooleanNode
 import tools.jackson.databind.node.NullNode
 
 @DisplayName("When describing operations")
+@TestInstance(Lifecycle.PER_CLASS)
 internal class OperationDescribeTest {
 
-    @Test
-    @Suppress("LongMethod") // Acceptable for a test method with one purpose
-    fun `describes simple operations with user-facing DSL syntax`() {
-        assertEquals("add(\"/enabled\")", Add("/enabled", BooleanNode.TRUE).describe())
-        assertEquals("copy(\"/id\") to \"/legacyId\"", Copy("/id", "/legacyId").describe())
-        assertEquals("move(\"/name\") to \"/fullName\"", Move("/name", "/fullName").describe())
-        assertEquals("remove(\"/deprecated\")", Remove("/deprecated").describe())
-        assertEquals("set(\"/enabled\")", Set("/enabled", BooleanNode.TRUE).describe())
-        assertEquals("removeIfEmpty(\"/deprecated\", cascade = false)", RemoveIfEmpty("/deprecated").describe())
-        assertEquals("requireExists(\"/deprecated\")", RequireExists("/deprecated").describe())
-        assertEquals("requireType(\"/deprecated\", STRING)", RequireType("/deprecated", STRING).describe())
-        assertEquals("transform(\"/deprecated\")", Transform("/deprecated") { NullNode.instance }.describe())
-        assertEquals("custom", Custom { }.describe())
-    }
-
-    @Test
-    fun `describes composite operations with user-facing DSL syntax`() {
-        assertEquals("forEach(\"/users\")", ForEach("/users", emptyList()).describe())
-        assertEquals("merge(\"/firstName\", \"/lastName\") into \"/fullName\"", merge().describe())
-        assertEquals("split(\"/fullName\").into(\"/firstName\", \"/lastName\")", split().describe())
-        assertEquals(
-            "removeIfEmpty(\"/address\", cascade = true)",
-            RemoveIfEmpty("/address", cascade = true).describe(),
-        )
-    }
+    @ParameterizedTest(name = "{1}")
+    @MethodSource("descriptions")
+    fun `describes operations with user-facing DSL syntax`(operation: Operation, expected: String) =
+        assertEquals(expected, operation.describe())
 
     @Test
     fun `falls back to class name when operation does not override describe`() {
         assertEquals("FakeOperation", FakeOperation().describe())
     }
 
-    private fun merge() = Merge(listOf("/firstName", "/lastName"), "/fullName")
-
-    private fun split() = Split("/fullName", listOf("/firstName", "/lastName"))
+    @Suppress("LongMethod") // MethodSource providers are data tables, not logic
+    fun descriptions() = listOf(
+        Arguments.of(Add("/enabled", BooleanNode.TRUE), "add(\"/enabled\")"),
+        Arguments.of(Copy("/id", "/legacyId"), "copy(\"/id\") to \"/legacyId\""),
+        Arguments.of(Move("/name", "/fullName"), "move(\"/name\") to \"/fullName\""),
+        Arguments.of(Remove("/deprecated"), "remove(\"/deprecated\")"),
+        Arguments.of(Set("/enabled", BooleanNode.TRUE), "set(\"/enabled\")"),
+        Arguments.of(RemoveIfEmpty("/deprecated"), "removeIfEmpty(\"/deprecated\", cascade = false)"),
+        Arguments.of(RemoveIfEmpty("/address", cascade = true), "removeIfEmpty(\"/address\", cascade = true)"),
+        Arguments.of(RequireExists("/deprecated"), "requireExists(\"/deprecated\")"),
+        Arguments.of(RequireType("/deprecated", STRING), "requireType(\"/deprecated\", STRING)"),
+        Arguments.of(Transform("/deprecated") { NullNode.instance }, "transform(\"/deprecated\")"),
+        Arguments.of(Custom { }, "custom"),
+        Arguments.of(ForEach("/users", emptyList()), "forEach(\"/users\")"),
+        Arguments.of(
+            Merge(listOf("/firstName", "/lastName"), "/fullName"),
+            "merge(\"/firstName\", \"/lastName\") into \"/fullName\"",
+        ),
+        Arguments.of(
+            Split("/fullName", listOf("/firstName", "/lastName")),
+            "split(\"/fullName\").into(\"/firstName\", \"/lastName\")",
+        ),
+    )
 
     private class FakeOperation : Operation {
         override fun apply(document: Document) = Unit
