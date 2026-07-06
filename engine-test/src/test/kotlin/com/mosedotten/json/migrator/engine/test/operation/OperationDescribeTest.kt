@@ -2,6 +2,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.operation.Add
 import com.mosedotten.json.migrator.engine.operation.Copy
+import com.mosedotten.json.migrator.engine.operation.Custom
 import com.mosedotten.json.migrator.engine.operation.Document
 import com.mosedotten.json.migrator.engine.operation.ForEach
 import com.mosedotten.json.migrator.engine.operation.JsonType.STRING
@@ -25,6 +26,7 @@ import tools.jackson.databind.node.NullNode
 internal class OperationDescribeTest {
 
     @Test
+    @Suppress("LongMethod") // Acceptable for a test method with one purpose
     fun `describes simple operations with user-facing DSL syntax`() {
         assertEquals("add(\"/enabled\")", Add("/enabled", BooleanNode.TRUE).describe())
         assertEquals("copy(\"/id\") to \"/legacyId\"", Copy("/id", "/legacyId").describe())
@@ -35,6 +37,7 @@ internal class OperationDescribeTest {
         assertEquals("requireExists(\"/deprecated\")", RequireExists("/deprecated").describe())
         assertEquals("requireType(\"/deprecated\", STRING)", RequireType("/deprecated", STRING).describe())
         assertEquals("transform(\"/deprecated\")", Transform("/deprecated") { NullNode.instance }.describe())
+        assertEquals("custom", Custom { }.describe())
     }
 
     @Test

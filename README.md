@@ -29,5 +29,8 @@ and fails fast when a migration cannot be applied safely.
 | `createObject(path)` | Ensure an object exists at a given path. | `createObject("/address")` |
 | `removeIfEmpty(path, cascade)` | Remove an object or array if it becomes empty after migration. | `removeIfEmpty("/address")` |
 | `requireExists(path)` | Validate that a required field exists before continuing. | `requireExists("/id")` |
+| `requireType(path, type)` | Validate that a value has the expected JSON type. | `requireType("/age", NUMBER)` |
+| `transform(path, lenient) { ... }` | Transform the value at a path using custom logic. | `transform("/age") { IntNode.valueOf(asInt() + 1) }` |
+| `custom { ... }`| Escape hatch for migrations that cannot be expressed with the DSL primitives. | `custom { node -> /* arbitrary Jackson code */ }` |
 
 ## Dependency

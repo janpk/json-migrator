@@ -27,4 +27,5 @@ class Document(private val root: ObjectNode) {
         return Document(element)
     }
     internal fun ensureObject(path: JsonPath) = ensureObjectPathIn(root, path)
+    internal fun mutate(block: (ObjectNode) -> Unit) = block(root)
 }
