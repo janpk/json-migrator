@@ -4,12 +4,14 @@ import com.mosedotten.json.migrator.engine.operation.Add
 import com.mosedotten.json.migrator.engine.operation.Copy
 import com.mosedotten.json.migrator.engine.operation.Document
 import com.mosedotten.json.migrator.engine.operation.ForEach
+import com.mosedotten.json.migrator.engine.operation.JsonType.STRING
 import com.mosedotten.json.migrator.engine.operation.Merge
 import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Operation
 import com.mosedotten.json.migrator.engine.operation.Remove
 import com.mosedotten.json.migrator.engine.operation.RemoveIfEmpty
 import com.mosedotten.json.migrator.engine.operation.RequireExists
+import com.mosedotten.json.migrator.engine.operation.RequireType
 import com.mosedotten.json.migrator.engine.operation.Set
 import com.mosedotten.json.migrator.engine.operation.Split
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -29,6 +31,7 @@ internal class OperationDescribeTest {
         assertEquals("set(\"/enabled\")", Set("/enabled", BooleanNode.TRUE).describe())
         assertEquals("removeIfEmpty(\"/deprecated\", cascade = false)", RemoveIfEmpty("/deprecated").describe())
         assertEquals("requireExists(\"/deprecated\")", RequireExists("/deprecated").describe())
+        assertEquals("requireType(\"/deprecated\", STRING)", RequireType("/deprecated", STRING).describe())
     }
 
     @Test
