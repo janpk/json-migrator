@@ -8,6 +8,7 @@ import com.mosedotten.json.migrator.engine.operation.Merge
 import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Operation
 import com.mosedotten.json.migrator.engine.operation.Remove
+import com.mosedotten.json.migrator.engine.operation.RemoveIfEmpty
 import com.mosedotten.json.migrator.engine.operation.Set
 import com.mosedotten.json.migrator.engine.operation.Split
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -32,6 +33,10 @@ internal class OperationDescribeTest {
         assertEquals("forEach(\"/users\")", ForEach("/users", emptyList()).describe())
         assertEquals("merge(\"/firstName\", \"/lastName\") into \"/fullName\"", merge().describe())
         assertEquals("split(\"/fullName\").into(\"/firstName\", \"/lastName\")", split().describe())
+        assertEquals(
+            "removeIfEmpty(\"/address\", cascade = true)",
+            RemoveIfEmpty("/address", cascade = true).describe(),
+        )
     }
 
     @Test

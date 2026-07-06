@@ -5,12 +5,22 @@ import com.mosedotten.json.migrator.engine.exception.InvalidJsonPathException
 internal class JsonPath private constructor(val raw: String, internal val segments: List<String>) {
     val leaf = segments.last()
 
+    val parent: JsonPath?
+        get() = segments.dropLast(1).takeIf { it.isNotEmpty() }?.let {
+            fromSegments(it)
+        }
+
     companion object {
         fun parse(raw: String): JsonPath {
             validatePath(raw)
             return JsonPath(raw, raw.drop(1).split("/").map(::unescape))
         }
+        private fun fromSegments(segments: List<String>) = JsonPath(segments.toRawPath(), segments)
     }
+}
+
+private fun List<String>.toRawPath() = joinToString(separator = "/", prefix = "/") { segment ->
+    segment.replace("~", "~0").replace("/", "~1")
 }
 
 private fun validatePath(raw: String) {

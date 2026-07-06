@@ -27,5 +27,6 @@ and fails fast when a migration cannot be applied safely.
 | `split(source).into(targets...)` | Split one string field into multiple fields. | `split("/fullName").into("/firstName", "/lastName")` |
 | `forEach(path) { ... }` | Apply operations to every object in an array. | `forEach("/users") { move("/name") to "/fullName" }` |
 | `createObject(path)` | Ensure an object exists at a given path. | `createObject("/address")` |
+| `removeIfEmpty(path, cascade)` | Remove an object or array if it becomes empty after migration. | `removeIfEmpty("/address")` |
 
 ## Dependency
