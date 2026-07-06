@@ -32,3 +32,5 @@ class MigrationVersionException(fromVersion: Int, toVersion: Int, message: Strin
 class IncompleteDslClauseException(message: String) : MigrationException(message)
 
 class DslClauseAlreadyCompletedException(message: String) : MigrationException(message)
+
+class InvalidOperationException(message: String) : MigrationException(message)
