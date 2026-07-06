@@ -6,13 +6,13 @@ import com.mosedotten.json.migrator.engine.operation.Add
 import com.mosedotten.json.migrator.engine.operation.ForEach
 import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Remove
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
 
 @DisplayName("When applying forEach over an array")
-internal class ForEachTest : JsonFixtures() {
+internal class ForEachTest : TestFixtures() {
 
     @Test
     fun `applies an operation to every element`() {

@@ -4,7 +4,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.ExistingFieldException
 import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -13,7 +13,7 @@ import tools.jackson.databind.node.BooleanNode
 import tools.jackson.databind.node.IntNode
 
 @DisplayName("When running the schema DSL")
-internal class DslSchemaTest : JsonFixtures() {
+internal class DslSchemaTest : TestFixtures() {
 
     @Test
     @Suppress("LongMethod") // Test methods are naturally longer

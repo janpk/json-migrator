@@ -2,7 +2,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.RequireExists
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 @DisplayName("When requiring a field exists")
 @TestInstance(Lifecycle.PER_CLASS)
-internal class RequireExistsTest : JsonFixtures() {
+internal class RequireExistsTest : TestFixtures() {
 
     @ParameterizedTest(name = "passes: {1} present in {0}")
     @MethodSource("presentFields")

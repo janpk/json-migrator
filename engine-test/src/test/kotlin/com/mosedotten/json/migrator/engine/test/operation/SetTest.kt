@@ -1,13 +1,13 @@
 package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.operation.Set
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
 
 @DisplayName("When setting a field value")
-internal class SetTest : JsonFixtures() {
+internal class SetTest : TestFixtures() {
     @Test
     fun `expect success if it doesn't exist`() {
         assertMigrates(

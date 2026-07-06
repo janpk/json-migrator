@@ -6,12 +6,12 @@ import com.mosedotten.json.migrator.engine.operation.Merge
 import com.mosedotten.json.migrator.engine.operation.Split
 import com.mosedotten.json.migrator.engine.operation.ValueJoinerStrategy
 import com.mosedotten.json.migrator.engine.operation.ValueSplitterStrategy
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 @DisplayName("When composing strings with custom strategies")
-internal class ValueStrategyTest : JsonFixtures() {
+internal class ValueStrategyTest : TestFixtures() {
 
     private val commaJoiner = ValueJoinerStrategy { values -> values.joinToString(",") { it.asString() } }
     private val commaSplitter = ValueSplitterStrategy { value -> value.asString().split(",") }

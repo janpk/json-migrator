@@ -2,7 +2,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.Transform
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
@@ -12,7 +12,7 @@ import tools.jackson.databind.node.StringNode
 
 @DisplayName("When transforming a value")
 @Suppress("LargeClass") // Happy-path plus lenient and failure cases accumulate; acceptable for test classes
-internal class TransformTest : JsonFixtures() {
+internal class TransformTest : TestFixtures() {
 
     @Test
     fun `transforms a number in place`() {

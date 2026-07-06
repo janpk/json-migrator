@@ -3,12 +3,12 @@ package com.mosedotten.json.migrator.engine.test.operation
 import com.mosedotten.json.migrator.engine.exception.ExistingFieldException
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.Copy
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 @DisplayName("When copying a field")
-internal class CopyTest : JsonFixtures() {
+internal class CopyTest : TestFixtures() {
 
     @Test
     fun `within the same object duplicates the field`() {

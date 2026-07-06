@@ -2,14 +2,14 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.exception.ExistingFieldException
 import com.mosedotten.json.migrator.engine.operation.Add
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
 import tools.jackson.databind.node.IntNode
 
 @DisplayName("When adding a field")
-internal class AddTest : JsonFixtures() {
+internal class AddTest : TestFixtures() {
     @Test
     fun `expect success if it doesn't exist`() {
         assertMigrates("""{"name": "John Doe"}""", """{"name" : "John Doe", "newWithDefault" : true}""") {

@@ -1,7 +1,7 @@
 package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.operation.Custom
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
@@ -11,7 +11,7 @@ import tools.jackson.databind.node.StringNode
 
 @DisplayName("When applying a custom operation")
 @Suppress("LargeClass") // Escape-hatch scenarios accumulate; acceptable for test classes
-internal class CustomTest : JsonFixtures() {
+internal class CustomTest : TestFixtures() {
 
     @Test
     fun `adds a new field`() {

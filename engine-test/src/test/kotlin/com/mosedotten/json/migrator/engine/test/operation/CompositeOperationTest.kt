@@ -6,13 +6,13 @@ import com.mosedotten.json.migrator.engine.operation.CompositeOperation
 import com.mosedotten.json.migrator.engine.operation.Document
 import com.mosedotten.json.migrator.engine.operation.Operation
 import com.mosedotten.json.migrator.engine.operation.Remove
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.IntNode
 
 @DisplayName("When applying a composite operation")
-internal class CompositeOperationTest : JsonFixtures() {
+internal class CompositeOperationTest : TestFixtures() {
 
     private fun composite(vararg steps: Operation) = object : CompositeOperation() {
         override fun steps(document: Document) = steps.toList()

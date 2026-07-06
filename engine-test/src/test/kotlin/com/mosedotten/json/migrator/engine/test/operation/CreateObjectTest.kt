@@ -2,7 +2,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.exception.InvalidFieldTypeException
 import com.mosedotten.json.migrator.engine.operation.CreateObject
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 @DisplayName("When creating an object")
 @TestInstance(Lifecycle.PER_CLASS)
-internal class CreateObjectTest : JsonFixtures() {
+internal class CreateObjectTest : TestFixtures() {
 
     @ParameterizedTest(name = "creates object(s) for path {1}")
     @MethodSource("creations")

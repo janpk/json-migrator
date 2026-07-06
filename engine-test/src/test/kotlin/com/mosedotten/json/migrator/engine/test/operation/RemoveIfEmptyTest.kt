@@ -2,7 +2,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.operation.Remove
 import com.mosedotten.json.migrator.engine.operation.RemoveIfEmpty
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 @DisplayName("When removing if empty")
 @TestInstance(Lifecycle.PER_CLASS)
-internal class RemoveIfEmptyTest : JsonFixtures() {
+internal class RemoveIfEmptyTest : TestFixtures() {
 
     @ParameterizedTest(name = "removes empty {1} from {0}")
     @MethodSource("emptyContainers")

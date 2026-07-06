@@ -18,7 +18,7 @@ import com.mosedotten.json.migrator.engine.exception.InvalidFieldTypeException
 import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.JsonType.NUMBER
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ import tools.jackson.databind.node.IntNode
 
 @DisplayName("When a DSL clause is incomplete, then")
 @Suppress("LargeClass") // An incomplete + double-completion pair per clause accumulates; acceptable for test classes
-internal class DslClauseValidationTest : JsonFixtures() {
+internal class DslClauseValidationTest : TestFixtures() {
 
     @Test
     fun `an add without a value fails the migration`() {

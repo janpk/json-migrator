@@ -4,12 +4,12 @@ import com.mosedotten.json.migrator.engine.exception.ExistingFieldException
 import com.mosedotten.json.migrator.engine.exception.InvalidOperationException
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.Merge
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 @DisplayName("When merging fields")
-internal class MergeTest : JsonFixtures() {
+internal class MergeTest : TestFixtures() {
 
     @Test
     fun `two fields are concatenated with a space into the target`() {

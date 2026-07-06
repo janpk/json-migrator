@@ -6,7 +6,7 @@ import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.RemoveIfEmpty
 import com.mosedotten.json.migrator.engine.operation.RequireExists
 import com.mosedotten.json.migrator.engine.operation.Set
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.assertThrows
 import tools.jackson.databind.node.BooleanNode
 
 @DisplayName("When using JSON paths in operations")
-internal class JsonPathOperationTest : JsonFixtures() {
+internal class JsonPathOperationTest : TestFixtures() {
 
     @Test
     fun `escaped slash and tilde segments target literal field names`() {

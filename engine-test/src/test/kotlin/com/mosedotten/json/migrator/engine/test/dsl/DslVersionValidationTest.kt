@@ -3,14 +3,14 @@ package com.mosedotten.json.migrator.engine.test.dsl
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.MigrationVersionException
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import tools.jackson.databind.node.BooleanNode
 
 @DisplayName("When the schema DSL validates versions, then")
-internal class DslVersionValidationTest : JsonFixtures() {
+internal class DslVersionValidationTest : TestFixtures() {
 
     @Test
     fun `a migration can not migrate from version 0`() {

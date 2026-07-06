@@ -3,6 +3,7 @@ package com.mosedotten.json.migrator.engine.test.dsl
 import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.clause.copy
 import com.mosedotten.json.migrator.engine.dsl.clause.createObject
+import com.mosedotten.json.migrator.engine.dsl.clause.custom
 import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
@@ -14,7 +15,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.dsl.clause.transform
 import com.mosedotten.json.migrator.engine.operation.JsonType.NUMBER
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
@@ -22,7 +23,7 @@ import tools.jackson.databind.node.IntNode
 
 @DisplayName("When applying a DSL operation")
 @Suppress("LargeClass") // One happy-path per DSL operation naturally accumulates; acceptable for test classes
-internal class DslOperationTest : JsonFixtures() {
+internal class DslOperationTest : TestFixtures() {
 
     @Test
     fun `add adds a field and bumps the version`() {
@@ -191,6 +192,18 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 transform("/age") { IntNode.valueOf(asInt() + 1) }
+            }
+        }
+    }
+
+    @Test
+    fun `custom applies arbitrary logic and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"name":"John"}""",
+            """{"schemaVersion":2,"name":"John","enabled":true}""",
+        ) {
+            migration(1, 2) {
+                custom { node -> node.set("enabled", BooleanNode.TRUE) }
             }
         }
     }

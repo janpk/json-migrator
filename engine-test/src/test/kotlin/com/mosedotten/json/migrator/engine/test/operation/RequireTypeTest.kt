@@ -10,7 +10,7 @@ import com.mosedotten.json.migrator.engine.operation.JsonType.NUMBER
 import com.mosedotten.json.migrator.engine.operation.JsonType.OBJECT
 import com.mosedotten.json.migrator.engine.operation.JsonType.STRING
 import com.mosedotten.json.migrator.engine.operation.RequireType
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 @DisplayName("When requiring a field type")
 @TestInstance(Lifecycle.PER_CLASS)
-internal class RequireTypeTest : JsonFixtures() {
+internal class RequireTypeTest : TestFixtures() {
 
     @ParameterizedTest(name = "{2} matches value at {1}")
     @MethodSource("matchingTypes")

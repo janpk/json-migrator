@@ -8,7 +8,7 @@ import org.junit.jupiter.api.assertThrows
 import tools.jackson.databind.node.ObjectNode
 import tools.jackson.module.kotlin.jacksonObjectMapper
 
-internal abstract class JsonFixtures {
+internal abstract class TestFixtures {
 
     protected val mapper = jacksonObjectMapper()
 

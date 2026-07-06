@@ -5,12 +5,12 @@ import com.mosedotten.json.migrator.engine.exception.InvalidFieldValueException
 import com.mosedotten.json.migrator.engine.exception.InvalidOperationException
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.Split
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 @DisplayName("When splitting a field")
-internal class SplitTest : JsonFixtures() {
+internal class SplitTest : TestFixtures() {
 
     @Test
     fun `a field is split on spaces into the targets`() {

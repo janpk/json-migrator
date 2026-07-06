@@ -2,12 +2,12 @@ package com.mosedotten.json.migrator.engine.test.operation
 
 import com.mosedotten.json.migrator.engine.exception.MissingFieldException
 import com.mosedotten.json.migrator.engine.operation.Remove
-import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
+import com.mosedotten.json.migrator.engine.test.util.TestFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 @DisplayName("When removing a field")
-internal class RemoveTest : JsonFixtures() {
+internal class RemoveTest : TestFixtures() {
 
     @Test
     fun `at the top level removes the field`() {
