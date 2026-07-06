@@ -37,3 +37,12 @@ class InvalidOperationException(message: String) : MigrationException(message)
 
 class InvalidFieldValueException(path: String, reason: String) :
     FieldMigrationException(path, "Field '$path' has an invalid value: $reason")
+
+class InvalidFieldTypeException(path: String, expected: String, actual: String? = null) :
+    FieldMigrationException(path, invalidTypeMessage(path, expected, actual))
+
+private fun invalidTypeMessage(path: String, expected: String, actual: String?) = if (actual == null) {
+    "Field '$path' is not of type $expected"
+} else {
+    "Field '$path' is not of type $expected; actual type was $actual"
+}

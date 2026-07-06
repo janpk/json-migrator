@@ -3,6 +3,7 @@ package com.mosedotten.json.migrator.engine.test.operation
 import com.mosedotten.json.migrator.engine.operation.Add
 import com.mosedotten.json.migrator.engine.operation.Copy
 import com.mosedotten.json.migrator.engine.operation.Document
+import com.mosedotten.json.migrator.engine.operation.ForEach
 import com.mosedotten.json.migrator.engine.operation.Merge
 import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Operation
@@ -28,6 +29,7 @@ internal class OperationDescribeTest {
 
     @Test
     fun `describes composite operations with user-facing DSL syntax`() {
+        assertEquals("forEach(\"/users\")", ForEach("/users", emptyList()).describe())
         assertEquals("merge(\"/firstName\", \"/lastName\") into \"/fullName\"", merge().describe())
         assertEquals("split(\"/fullName\").into(\"/firstName\", \"/lastName\")", split().describe())
     }
