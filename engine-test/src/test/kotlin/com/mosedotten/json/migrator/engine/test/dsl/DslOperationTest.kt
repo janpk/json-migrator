@@ -9,8 +9,10 @@ import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.remove
 import com.mosedotten.json.migrator.engine.dsl.clause.removeIfEmpty
 import com.mosedotten.json.migrator.engine.dsl.clause.requireExists
+import com.mosedotten.json.migrator.engine.dsl.clause.requireType
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
+import com.mosedotten.json.migrator.engine.operation.JsonType.NUMBER
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -163,6 +165,18 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 requireExists("/id")
+            }
+        }
+    }
+
+    @Test
+    fun `requireType passes for a matching type and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"age":30,"name":"John"}""",
+            """{"schemaVersion":2,"age":30,"name":"John"}""",
+        ) {
+            migration(1, 2) {
+                requireType("/age", NUMBER)
             }
         }
     }
