@@ -10,6 +10,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.requireExists
 import com.mosedotten.json.migrator.engine.dsl.clause.requireType
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
+import com.mosedotten.json.migrator.engine.dsl.clause.transform
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.DslClauseAlreadyCompletedException
 import com.mosedotten.json.migrator.engine.exception.IncompleteDslClauseException
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import tools.jackson.databind.node.BooleanNode
+import tools.jackson.databind.node.IntNode
 
 @DisplayName("When a DSL clause is incomplete, then")
 @Suppress("LargeClass") // An incomplete + double-completion pair per clause accumulates; acceptable for test classes
@@ -221,6 +223,19 @@ internal class DslClauseValidationTest : JsonFixtures() {
             }
         }.also {
             assertEquals(InvalidFieldTypeException::class, it.failure::class)
+        }
+    }
+
+    @Test
+    fun `transform fails when the field is missing`() {
+        assertThrows<MigrationExecutionException> {
+            schema(obj("""{"schemaVersion":1,"name":"John"}""")) {
+                migration(1, 2) {
+                    transform("/age") { IntNode.valueOf(asInt() + 1) }
+                }
+            }
+        }.also {
+            assertEquals(MissingFieldException::class, it.failure::class)
         }
     }
 }

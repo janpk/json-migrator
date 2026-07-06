@@ -12,11 +12,13 @@ import com.mosedotten.json.migrator.engine.dsl.clause.requireExists
 import com.mosedotten.json.migrator.engine.dsl.clause.requireType
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
+import com.mosedotten.json.migrator.engine.dsl.clause.transform
 import com.mosedotten.json.migrator.engine.operation.JsonType.NUMBER
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
+import tools.jackson.databind.node.IntNode
 
 @DisplayName("When applying a DSL operation")
 @Suppress("LargeClass") // One happy-path per DSL operation naturally accumulates; acceptable for test classes
@@ -177,6 +179,18 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 requireType("/age", NUMBER)
+            }
+        }
+    }
+
+    @Test
+    fun `transform replaces a value and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"age":30}""",
+            """{"schemaVersion":2,"age":31}""",
+        ) {
+            migration(1, 2) {
+                transform("/age") { IntNode.valueOf(asInt() + 1) }
             }
         }
     }
