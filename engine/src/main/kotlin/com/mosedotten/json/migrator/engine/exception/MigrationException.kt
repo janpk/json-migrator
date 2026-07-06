@@ -34,3 +34,6 @@ class IncompleteDslClauseException(message: String) : MigrationException(message
 class DslClauseAlreadyCompletedException(message: String) : MigrationException(message)
 
 class InvalidOperationException(message: String) : MigrationException(message)
+
+class InvalidFieldValueException(path: String, reason: String) :
+    FieldMigrationException(path, "Field '$path' has an invalid value: $reason")

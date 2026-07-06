@@ -8,6 +8,7 @@ import com.mosedotten.json.migrator.engine.operation.Move
 import com.mosedotten.json.migrator.engine.operation.Operation
 import com.mosedotten.json.migrator.engine.operation.Remove
 import com.mosedotten.json.migrator.engine.operation.Set
+import com.mosedotten.json.migrator.engine.operation.Split
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -28,6 +29,7 @@ internal class OperationDescribeTest {
     @Test
     fun `describes composite operations with user-facing DSL syntax`() {
         assertEquals("merge(\"/firstName\", \"/lastName\") into \"/fullName\"", merge().describe())
+        assertEquals("split(\"/fullName\").into(\"/firstName\", \"/lastName\")", split().describe())
     }
 
     @Test
@@ -36,6 +38,8 @@ internal class OperationDescribeTest {
     }
 
     private fun merge() = Merge(listOf("/firstName", "/lastName"), "/fullName")
+
+    private fun split() = Split("/fullName", listOf("/firstName", "/lastName"))
 
     private class FakeOperation : Operation {
         override fun apply(document: Document) = Unit

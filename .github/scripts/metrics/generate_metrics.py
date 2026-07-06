@@ -21,6 +21,7 @@ import anybadge
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "out"
 KOVER_XML = ROOT / "target/site/kover/report.xml"
+SUREFIRE_GLOB = "**/surefire-reports/TEST-*.xml"
 CHURN_DAYS = 90
 
 COVERAGE_LABELS = {
@@ -54,6 +55,23 @@ def coverage_metrics():
             total = missed + covered
             result[label] = round(100 * covered / total, 1) if total else 0.0
     return result
+
+
+def junit_metrics():
+    """Aggregate Surefire testsuite reports: one XML file per test class."""
+    classes = tests = failures = skipped = 0
+    for xml in sorted(ROOT.glob(SUREFIRE_GLOB)):
+        suite = ElementTree.parse(xml).getroot()
+        classes += 1
+        tests += int(suite.get("tests", 0))
+        failures += int(suite.get("failures", 0)) + int(suite.get("errors", 0))
+        skipped += int(suite.get("skipped", 0))
+    return {
+        "test_classes": classes,
+        "test_cases": tests,
+        "test_failures": failures,
+        "test_skipped": skipped,
+    }
 
 
 def kotlin_files(subdir):
@@ -154,6 +172,13 @@ def badge(name, label, value, badge_color):
 def render_badges(m):
     for key in COVERAGE_LABELS.values():
         badge(key, key, f"{m[key]}%", color(m[key], 80, 60))
+    badge("test_classes", "test classes", m["test_classes"], "gray")
+    badge("test_cases", "tests", m["test_cases"], "gray")
+    badge("test_results", "test results",
+          f"{m['test_cases'] - m['test_failures'] - m['test_skipped']}/{m['test_cases']} passing",
+          color(m["test_failures"], 0, 0, invert=True))
+    badge("test_skipped", "skipped", m["test_skipped"],
+          color(m["test_skipped"], 0, 5, invert=True))
     badge("test_ratio", "test ratio", f"{m['test_ratio']}%", color(m["test_ratio"], 100, 60))
     badge("avg_func_lines", "avg func lines", m["avg_func_lines"],
           color(m["avg_func_lines"], 15, 25, invert=True))
@@ -181,6 +206,10 @@ def render_markdown(m):
     metrics_md = f"""# Metrics Overview
 
 Updated: {m['timestamp']} (`{m['sha']}`)
+
+## Tests
+
+![](badges/test_results.svg) ![](badges/test_classes.svg) ![](badges/test_cases.svg) ![](badges/test_skipped.svg)
 
 ## Test Coverage
 
@@ -220,7 +249,8 @@ def main():
     sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
                          capture_output=True, text=True, cwd=ROOT, check=True).stdout.strip()
     metrics = {"sha": sha, "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds")}
-    metrics |= coverage_metrics() | complexity_metrics() | detekt_metrics() | churn_metrics()
+    metrics |= (coverage_metrics() | junit_metrics() | complexity_metrics()
+                | detekt_metrics() | churn_metrics())
 
     render_badges(metrics)
     render_markdown(metrics)

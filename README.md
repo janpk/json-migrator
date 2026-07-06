@@ -24,5 +24,6 @@ and fails fast when a migration cannot be applied safely.
 | `move(from) to target` | Rename, nest, flatten, or relocate a value. | `move("/city") to "/address/city"` |
 | `remove(path)` | Delete an existing field. | `remove("/deprecated")` |
 | `merge(sources...) into target` | Join multiple values into one string field. | `merge("/firstName", "/lastName") into "/fullName"` |
+| `split(source).into(targets...)` | Split one string field into multiple fields. | `split("/fullName").into("/firstName", "/lastName")` |
 
 ## Dependency
