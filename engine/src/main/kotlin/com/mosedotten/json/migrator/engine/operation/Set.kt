@@ -2,7 +2,7 @@ package com.mosedotten.json.migrator.engine.operation
 
 import tools.jackson.databind.JsonNode
 
-class Set(val path: String, private val value: JsonNode) : Operation {
+class Set(private val path: String, private val value: JsonNode) : Operation {
     private val jsonPath = JsonPath.parse(path)
 
     override fun apply(document: Document) {
