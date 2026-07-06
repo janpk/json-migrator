@@ -7,6 +7,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.forEach
 import com.mosedotten.json.migrator.engine.dsl.clause.merge
 import com.mosedotten.json.migrator.engine.dsl.clause.move
 import com.mosedotten.json.migrator.engine.dsl.clause.remove
+import com.mosedotten.json.migrator.engine.dsl.clause.removeIfEmpty
 import com.mosedotten.json.migrator.engine.dsl.clause.set
 import com.mosedotten.json.migrator.engine.dsl.clause.split
 import com.mosedotten.json.migrator.engine.test.util.JsonFixtures
@@ -125,6 +126,30 @@ internal class DslOperationTest : JsonFixtures() {
         ) {
             migration(1, 2) {
                 createObject("/address")
+            }
+        }
+    }
+
+    @Test
+    fun `removeIfEmpty removes an empty field and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"name":"John","address":{}}""",
+            """{"schemaVersion":2,"name":"John"}""",
+        ) {
+            migration(1, 2) {
+                removeIfEmpty("/address")
+            }
+        }
+    }
+
+    @Test
+    fun `removeIfEmpty with cascade removes empty parents and bumps the version`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":1,"profile":{"contact":{}}}""",
+            """{"schemaVersion":2}""",
+        ) {
+            migration(1, 2) {
+                removeIfEmpty("/profile/contact", cascade = true)
             }
         }
     }
