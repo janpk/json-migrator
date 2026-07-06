@@ -14,10 +14,12 @@ import com.mosedotten.json.migrator.engine.operation.RequireExists
 import com.mosedotten.json.migrator.engine.operation.RequireType
 import com.mosedotten.json.migrator.engine.operation.Set
 import com.mosedotten.json.migrator.engine.operation.Split
+import com.mosedotten.json.migrator.engine.operation.Transform
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.jackson.databind.node.BooleanNode
+import tools.jackson.databind.node.NullNode
 
 @DisplayName("When describing operations")
 internal class OperationDescribeTest {
@@ -32,6 +34,7 @@ internal class OperationDescribeTest {
         assertEquals("removeIfEmpty(\"/deprecated\", cascade = false)", RemoveIfEmpty("/deprecated").describe())
         assertEquals("requireExists(\"/deprecated\")", RequireExists("/deprecated").describe())
         assertEquals("requireType(\"/deprecated\", STRING)", RequireType("/deprecated", STRING).describe())
+        assertEquals("transform(\"/deprecated\")", Transform("/deprecated") { NullNode.instance }.describe())
     }
 
     @Test
