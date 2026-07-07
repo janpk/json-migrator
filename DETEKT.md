@@ -1,5 +1,50 @@
 # Detekt Report
 
+## Module `demo-kotlin`
+
+# detekt
+
+## Metrics
+
+* 9 number of properties
+
+* 7 number of functions
+
+* 19 number of classes
+
+* 1 number of packages
+
+* 5 number of kt files
+
+## Complexity Report
+
+* 240 lines of code (loc)
+
+* 154 source lines of code (sloc)
+
+* 107 logical lines of code (lloc)
+
+* 44 comment lines of code (cloc)
+
+* 11 cyclomatic complexity (mcc)
+
+* 0 cognitive complexity
+
+* 0 number of total code smells
+
+* 28% comment source ratio
+
+* 102 mcc per 1,000 lloc
+
+* 0 code smells per 1,000 lloc
+
+## Findings (0)
+
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 11:37:51 UTC
+
+
+---
+
 ## Module `engine`
 
 # detekt
@@ -40,7 +85,7 @@
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:32:45 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 11:37:40 UTC
 
 
 ---
@@ -85,50 +130,5 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:32:
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:32:53 UTC
-
-
----
-
-## Module `engine-test`
-
-# detekt
-
-## Metrics
-
-* 26 number of properties
-
-* 199 number of functions
-
-* 25 number of classes
-
-* 3 number of packages
-
-* 24 number of kt files
-
-## Complexity Report
-
-* 2,359 lines of code (loc)
-
-* 2,084 source lines of code (sloc)
-
-* 1,579 logical lines of code (lloc)
-
-* 16 comment lines of code (cloc)
-
-* 204 cyclomatic complexity (mcc)
-
-* 0 cognitive complexity
-
-* 0 number of total code smells
-
-* 0% comment source ratio
-
-* 129 mcc per 1,000 lloc
-
-* 0 code smells per 1,000 lloc
-
-## Findings (0)
-
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:33:02 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 11:37:49 UTC
 
