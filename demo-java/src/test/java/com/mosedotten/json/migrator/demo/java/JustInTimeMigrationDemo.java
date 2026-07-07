@@ -38,8 +38,8 @@ class JustInTimeMigrationDemo extends DemoFixtures {
         // Whatever version we pulled from the database, we now hold a fully-populated latest DTO.
         assertEquals(6, application.schemaVersion());
         assertEquals("Jane", application.applicant().firstName());
-        assertEquals("NO", application.applicant().addresses().getFirst().country().iso2());
+        assertEquals("NO", application.applicant().addresses().get(0).country().iso2());
         assertEquals("NOK", application.applicant().financials().income().monthly().currency());
-        assertEquals("CREDIT_CARD", application.requestedProducts().getFirst().type());
+        assertEquals("CREDIT_CARD", application.requestedProducts().get(0).type());
     }
 }

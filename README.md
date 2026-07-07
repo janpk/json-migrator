@@ -43,6 +43,7 @@ and [Concepts](docs/concepts.md).
 - [Errors](docs/errors.md) — the exception model and a troubleshooting guide.
 - [Using json-migrator from Java](docs/using-java.md) — the Java-friendly `JsonMigrator` facade.
 - [Internals & design invariants](docs/internals.md) — contributor notes for adding new operations.
+- [Architecture decisions](docs/adr/index.md) — ADRs recording significant technical decisions and their reasoning.
 - [Contributing](CONTRIBUTING.md) — how to build, the quality gates, and conventions for changes.
 - [demo-kotlin](demo-kotlin) — a worked credit-application example (v1→v6) using the Kotlin `schema { }` DSL.
 - [demo-java](demo-java) — a worked credit-application example (v1→v6) using the Java `JsonMigrator` facade.

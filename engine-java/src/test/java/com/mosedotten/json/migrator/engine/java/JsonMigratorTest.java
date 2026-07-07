@@ -206,7 +206,7 @@ class JsonMigratorTest {
 
     @Test
     void usesACustomExecutionStrategy() {
-        ExecutionStrategy passthrough = (_, block) -> block.invoke();
+        ExecutionStrategy passthrough = (root, block) -> block.invoke();
         ObjectNode root = obj("{\"schemaVersion\":1,\"fullName\":\"John Doe\"}");
 
         assertThrows(MigrationExecutionException.class, () -> JsonMigrator.migrate(root)

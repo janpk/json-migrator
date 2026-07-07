@@ -25,15 +25,17 @@
     <compiler-plugin.version>3.15.0</compiler-plugin.version>
     <detekt-maven-plugin.version>1.23.8</detekt-maven-plugin.version>
     <jackson.version>3.1.4</jackson.version>
-    <java.version>25</java.version>
     <junit.version>6.1.1</junit.version>
     <kotlin.version>2.3.21</kotlin.version>
-    <kotlin.compiler.jvmTarget>${java.version}</kotlin.compiler.jvmTarget>
+    <!-- Library baselines (see docs/adr/0001-runtime-baselines.md): emit Java 17 bytecode and a
+         conservative Kotlin API level, independent of the (newer) JDK used to build. -->
+    <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
+    <kotlin.compiler.languageVersion>2.0</kotlin.compiler.languageVersion>
+    <kotlin.compiler.apiVersion>2.0</kotlin.compiler.apiVersion>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     <kover-maven-plugin.version>0.9.8</kover-maven-plugin.version>
     <ktlint.version>1.8.0</ktlint.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <maven.compiler.release>17</maven.compiler.release>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -209,7 +211,9 @@
           </executions>
           <configuration>
             <javaParameters>true</javaParameters>
-            <jvmTarget>${java.version}</jvmTarget>
+            <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
+            <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
+            <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
           </configuration>
         </plugin>
       </plugins>
