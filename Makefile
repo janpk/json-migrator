@@ -42,7 +42,10 @@ test-module: ## Run tests for one module and its dependencies, e.g. make test-mo
 package: ## Package all modules
 	$(MVN) $(MVN_ARGS) package
 
-verify: ## Run full Maven verify lifecycle for all modules
+verify: ## Run full Maven verify lifecycle for all modules without coverage (skips Kover)
+	$(MVN) $(MVN_ARGS) verify -Dkover.skip=true
+
+build: clean ## Run clean and the full verify lifecycle with kover
 	$(MVN) $(MVN_ARGS) verify
 
 dependency-tree: ## Print dependency tree for one module, e.g. make dependency-tree MODULE=engine-tests

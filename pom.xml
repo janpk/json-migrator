@@ -15,9 +15,13 @@
     <module>demo-kotlin</module>
     <module>demo-java</module>
     <module>engine-test</module>
+    <module>report</module>
   </modules>
 
   <properties>
+    <!-- Empty default so surefire's @{argLine} resolves even when coverage is skipped
+         (e.g. `make build` / -Dkover.skip=true); Kover overrides it with the agent when active. -->
+    <argLine></argLine>
     <compiler-plugin.version>3.15.0</compiler-plugin.version>
     <detekt-maven-plugin.version>1.23.8</detekt-maven-plugin.version>
     <jackson.version>3.1.4</jackson.version>
@@ -72,6 +76,11 @@
       <dependency>
         <groupId>com.mosedotten.json.migrator</groupId>
         <artifactId>json-migrator-demo-java</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.mosedotten.json.migrator</groupId>
+        <artifactId>json-migrator-engine-test</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>

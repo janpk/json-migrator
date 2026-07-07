@@ -15,25 +15,10 @@
         <detekt.skip>true</detekt.skip>
     </properties>
 
-
     <dependencies>
         <dependency>
             <groupId>com.mosedotten.json.migrator</groupId>
             <artifactId>json-migrator-engine</artifactId>
-        </dependency>
-        <!-- Not used by these tests; present so kover's aggregate report (written last by this
-             module) walks into engine-java and the demo modules and includes their coverage. -->
-        <dependency>
-            <groupId>com.mosedotten.json.migrator</groupId>
-            <artifactId>json-migrator-engine-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mosedotten.json.migrator</groupId>
-            <artifactId>json-migrator-demo-kotlin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mosedotten.json.migrator</groupId>
-            <artifactId>json-migrator-demo-java</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -67,44 +52,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-            <!-- Runs in the last-built module so every module's reports are present -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>aggregate-test-html-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-only</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- The single kover aggregate report is generated here (last module, depends on all).
-                 Instrumentation itself runs in every module via the parent pom. -->
-            <plugin>
-                <groupId>org.jetbrains.kotlinx</groupId>
-                <artifactId>kover-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>kover-html-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-html</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>kover-xml-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-xml</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
 
 </project>
