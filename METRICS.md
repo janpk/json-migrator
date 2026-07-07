@@ -1,6 +1,10 @@
 # Metrics Overview
 
-Updated: 2026-07-07T13:09:36+00:00 (`b98de41`)
+Updated: 2026-07-07T13:16:25+00:00 (`e3d14f2`)
+
+## Stack
+
+![](badges/java_version.svg) ![](badges/kotlin_version.svg) ![](badges/jackson_version.svg)
 
 ## Tests
 
