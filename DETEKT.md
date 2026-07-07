@@ -40,7 +40,52 @@
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:58:02 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:38:26 UTC
+
+
+---
+
+## Module `engine-java`
+
+# detekt
+
+## Metrics
+
+* 8 number of properties
+
+* 27 number of functions
+
+* 3 number of classes
+
+* 1 number of packages
+
+* 1 number of kt files
+
+## Complexity Report
+
+* 122 lines of code (loc)
+
+* 86 source lines of code (sloc)
+
+* 57 logical lines of code (lloc)
+
+* 4 comment lines of code (cloc)
+
+* 52 cyclomatic complexity (mcc)
+
+* 0 cognitive complexity
+
+* 0 number of total code smells
+
+* 4% comment source ratio
+
+* 912 mcc per 1,000 lloc
+
+* 0 code smells per 1,000 lloc
+
+## Findings (0)
+
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:38:33 UTC
 
 
 ---
@@ -85,5 +130,5 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:58:
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-06 19:58:13 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:38:43 UTC
 
