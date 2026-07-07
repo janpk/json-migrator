@@ -31,7 +31,7 @@ import java.util.function.Function
 class JsonMigrator private constructor(private val root: ObjectNode) {
 
     private var versionField = "schemaVersion"
-    private var allowNoVersionField = false
+    private var missingVersionAllowed = false
     private var execution: ExecutionStrategy = ExecutionStrategy.Atomic
     private val specs = mutableListOf<Spec>()
 
@@ -44,7 +44,7 @@ class JsonMigrator private constructor(private val root: ObjectNode) {
 
     fun versionField(name: String) = apply { versionField = name }
 
-    fun allowMissingVersionField() = apply { allowNoVersionField = true }
+    fun allowMissingVersionField() = apply { missingVersionAllowed = true }
 
     fun atomic() = apply { execution = ExecutionStrategy.Atomic }
 
@@ -60,7 +60,7 @@ class JsonMigrator private constructor(private val root: ObjectNode) {
 
     fun run(): ObjectNode {
         val migrations = specs.map {
-            Migration(it.from, it.to, it.operations, versionField, allowNoVersionField, execution)
+            Migration(it.from, it.to, it.operations, versionField, missingVersionAllowed, execution)
         }
         return execution.execute(root) {
             migrations.forEach { it.execute(root) }

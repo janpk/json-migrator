@@ -99,7 +99,7 @@ internal class DslSchemaTest : TestFixtures() {
         assertSchemaMigrates(
             """{"name":"John Doe"}""",
             """{"name":"John Doe","enabled":true,"schemaVersion":2}""",
-            allowNoVersionField = true,
+            allowMissingVersionField = true,
         ) {
             migration(1, 2) {
                 add("/enabled") with BooleanNode.TRUE

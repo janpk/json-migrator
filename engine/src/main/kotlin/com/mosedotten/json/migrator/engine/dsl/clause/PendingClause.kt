@@ -16,8 +16,8 @@ abstract class CompleteOnceClause(private val builder: MigrationBuilder) : Pendi
         builder.register(this)
     }
 
-    protected fun complete(operation: Operation, alreadyCompleted: () -> String) =
-        builder.complete(this, operation, alreadyCompleted)
+    protected fun complete(operation: Operation, alreadyCompletedMessage: () -> String) =
+        builder.complete(this, operation, alreadyCompletedMessage)
 }
 
 @JsonMigratorDsl

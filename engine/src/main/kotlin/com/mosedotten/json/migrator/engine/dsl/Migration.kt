@@ -13,7 +13,7 @@ class Migration(
     private val to: Int,
     private val operations: List<Operation>,
     private val versionField: String = "schemaVersion",
-    private val allowNoVersionField: Boolean = false,
+    private val allowMissingVersionField: Boolean = false,
     private val execution: ExecutionStrategy = ExecutionStrategy.Atomic,
 ) {
     init {
@@ -66,7 +66,7 @@ class Migration(
     }
 
     private fun resolveMissingVersion(): Int? {
-        if (allowNoVersionField) return null
+        if (allowMissingVersionField) return null
         throw MigrationVersionException(from, to, "root node must contain version field '$versionField'")
     }
 

@@ -32,10 +32,10 @@ internal abstract class TestFixtures {
     protected fun assertSchemaMigrates(
         input: String,
         expected: String,
-        allowNoVersionField: Boolean = false,
+        allowMissingVersionField: Boolean = false,
         block: SchemaBuilder.() -> Unit,
     ) {
-        val actual = schema(obj(input), allowNoVersionField = allowNoVersionField, block = block)
+        val actual = schema(obj(input), allowMissingVersionField = allowMissingVersionField, block = block)
         assertEquals(mapper.readTree(expected), actual)
     }
 }

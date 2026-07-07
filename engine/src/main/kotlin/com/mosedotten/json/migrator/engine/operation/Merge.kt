@@ -26,7 +26,8 @@ class Merge(
     private fun joinSources(document: Document) = joiner.join(sourcePaths.map { document.require(it, "Source field") })
 
     private fun validateSources(document: Document) {
-        sourcePaths.firstOrNull { !document.exists(it) }?.let { throw MissingFieldException(it.raw, "Source field") }
+        sourcePaths.firstOrNull { !document.exists(it) }
+            ?.let { missing -> throw MissingFieldException(missing.raw, "Source field") }
     }
 
     override fun describe() = "merge(${sources.joinToString { "\"$it\"" }}) into \"$target\""

@@ -18,22 +18,26 @@ class MigrationBuilder internal constructor(private val from: Int, private val t
         operations += operation
     }
 
-    internal fun complete(clause: PendingClause, operation: Operation, lazyMessage: () -> String) {
+    internal fun complete(clause: PendingClause, operation: Operation, alreadyCompletedMessage: () -> String) {
         if (clause !in pendingClauses) {
-            throw DslClauseAlreadyCompletedException(lazyMessage())
+            throw DslClauseAlreadyCompletedException(alreadyCompletedMessage())
         }
         pendingClauses -= clause
         operations += operation
     }
 
-    internal fun build(versionField: String, allowNoVersionField: Boolean, execution: ExecutionStrategy): Migration {
+    internal fun build(
+        versionField: String,
+        allowMissingVersionField: Boolean,
+        execution: ExecutionStrategy,
+    ): Migration {
         if (pendingClauses.isNotEmpty()) {
             throw IncompleteDslClauseException(
                 "Migration $from -> $to has incomplete operations: " +
                     pendingClauses.joinToString { it.describe() },
             )
         }
-        return Migration(from, to, operations.toList(), versionField, allowNoVersionField, execution)
+        return Migration(from, to, operations.toList(), versionField, allowMissingVersionField, execution)
     }
 
     internal fun nestedOperations(block: MigrationBuilder.() -> Unit) = MigrationBuilder(from, to)
@@ -42,7 +46,7 @@ class MigrationBuilder internal constructor(private val from: Int, private val t
         .operations
         .toList()
 
-    private fun MigrationBuilder.validateNestedClauses() {
+    private fun validateNestedClauses() {
         if (pendingClauses.isEmpty()) return
         throw IncompleteDslClauseException(
             "nested block has incomplete operations: " +
