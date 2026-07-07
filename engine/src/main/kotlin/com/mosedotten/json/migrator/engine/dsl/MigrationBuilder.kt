@@ -6,7 +6,7 @@ import com.mosedotten.json.migrator.engine.exception.IncompleteDslClauseExceptio
 import com.mosedotten.json.migrator.engine.operation.Operation
 
 @JsonMigratorDsl
-class MigrationBuilder(private val from: Int, private val to: Int) {
+class MigrationBuilder internal constructor(private val from: Int, private val to: Int) {
     private val operations = mutableListOf<Operation>()
     private val pendingClauses = mutableSetOf<PendingClause>()
 

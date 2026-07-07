@@ -11,7 +11,7 @@ fun schema(
 ) = SchemaBuilder(rootNode, versionField, allowNoVersionField, execution).apply(block).execute()
 
 @JsonMigratorDsl
-class SchemaBuilder(
+class SchemaBuilder internal constructor(
     private val rootNode: ObjectNode,
     private val versionField: String,
     private val allowNoVersionField: Boolean,

@@ -8,7 +8,7 @@ import tools.jackson.databind.node.NumericNode
 import tools.jackson.databind.node.ObjectNode
 import tools.jackson.databind.node.StringNode
 
-enum class JsonType(val matches: (JsonNode) -> Boolean) {
+enum class JsonType(internal val matches: (JsonNode) -> Boolean) {
     STRING({ it is StringNode }),
     NUMBER({ it is NumericNode }),
     BOOLEAN({ it is BooleanNode }),
