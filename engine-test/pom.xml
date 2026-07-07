@@ -10,6 +10,11 @@
     <artifactId>json-migrator-engine-test</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <!-- No production Kotlin here (tests only), so detekt has nothing to analyse. -->
+        <detekt.skip>true</detekt.skip>
+    </properties>
+
 
     <dependencies>
         <dependency>
@@ -17,10 +22,18 @@
             <artifactId>json-migrator-engine</artifactId>
         </dependency>
         <!-- Not used by these tests; present so kover's aggregate report (written last by this
-             module) walks into engine-java and includes the Java facade's coverage. -->
+             module) walks into engine-java and the demo modules and includes their coverage. -->
         <dependency>
             <groupId>com.mosedotten.json.migrator</groupId>
             <artifactId>json-migrator-engine-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mosedotten.json.migrator</groupId>
+            <artifactId>json-migrator-demo-kotlin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mosedotten.json.migrator</groupId>
+            <artifactId>json-migrator-demo-java</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -64,6 +77,28 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>report-only</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- The single kover aggregate report is generated here (last module, depends on all).
+                 Instrumentation itself runs in every module via the parent pom. -->
+            <plugin>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kover-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>kover-html-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-html</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>kover-xml-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-xml</goal>
                         </goals>
                     </execution>
                 </executions>

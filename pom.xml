@@ -12,6 +12,8 @@
   <modules>
     <module>engine</module>
     <module>engine-java</module>
+    <module>demo-kotlin</module>
+    <module>demo-java</module>
     <module>engine-test</module>
   </modules>
 
@@ -63,6 +65,16 @@
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
+        <groupId>com.mosedotten.json.migrator</groupId>
+        <artifactId>json-migrator-demo-kotlin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.mosedotten.json.migrator</groupId>
+        <artifactId>json-migrator-demo-java</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-stdlib</artifactId>
         <version>${kotlin.version}</version>
@@ -98,6 +110,14 @@
             <systemPropertyVariables>
               <maven.home>${maven.home}</maven.home>
             </systemPropertyVariables>
+            <!-- Run test classes and their methods concurrently (JUnit 5 parallel execution) -->
+            <properties>
+              <configurationParameters>
+                junit.jupiter.execution.parallel.enabled=true
+                junit.jupiter.execution.parallel.mode.default=concurrent
+                junit.jupiter.execution.parallel.mode.classes.default=concurrent
+              </configurationParameters>
+            </properties>
             <!-- Aggregate every module's JUnit reports into the root target/site dir -->
             <reportsDirectory>${maven.multiModuleProjectDirectory}/target/site/surefire-reports</reportsDirectory>
           </configuration>
@@ -142,6 +162,20 @@
           <groupId>org.jetbrains.kotlinx</groupId>
           <artifactId>kover-maven-plugin</artifactId>
           <version>${kover-maven-plugin.version}</version>
+          <!-- Shared so both the instrumentation (all modules) and the single aggregate report
+               (engine-test) resolve the same aggregate settings. -->
+          <configuration>
+            <aggregate>true</aggregate>
+            <outputDirectory>${maven.multiModuleProjectDirectory}/target/site/kover</outputDirectory>
+            <xmlFile>${maven.multiModuleProjectDirectory}/target/site/kover/report.xml</xmlFile>
+            <filters>
+              <excludes>
+                <classes>
+                  *$DefaultImpls*
+                </classes>
+              </excludes>
+            </filters>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
@@ -220,42 +254,18 @@
         </configuration>
       </plugin>
       <!-- =========================================================================== -->
-      <!-- Kover: collects coverage and writes aggregate reports to the root target dir -->
+      <!-- Kover: every module instruments its tests to collect coverage. The single       -->
+      <!-- aggregate report is generated once, by engine-test (see its pom), which is       -->
+      <!-- built last and depends on every other module.                                    -->
       <!-- =========================================================================== -->
       <plugin>
         <groupId>org.jetbrains.kotlinx</groupId>
         <artifactId>kover-maven-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-          <outputDirectory>${maven.multiModuleProjectDirectory}/target/site/kover</outputDirectory>
-          <xmlFile>${maven.multiModuleProjectDirectory}/target/site/kover/report.xml</xmlFile>
-          <filters>
-            <excludes>
-              <classes>
-                *$DefaultImpls*
-              </classes>
-            </excludes>
-          </filters>
-        </configuration>
         <executions>
           <execution>
             <id>kover-instrumentation</id>
             <goals>
               <goal>instrumentation</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>kover-html-report</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>report-html</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>kover-xml-report</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>report-xml</goal>
             </goals>
           </execution>
         </executions>

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 6,
+  "applicationId": "app-2026-00042",
+  "status": "SUBMITTED",
+  "submittedAt": "2026-07-06T15:42:10Z",
+  "applicant": {
+    "customerId": "cus-123",
+    "firstName": "Jane",
+    "middleName": "Marie",
+    "lastName": "Doe",
+    "birthDate": "1988-04-12",
+    "contact": {
+      "email": "jane@example.com",
+      "mobilePhone": "+4712345678"
+    },
+    "addresses": [
+      {
+        "type": "HOME",
+        "street": "Exampleveien 10",
+        "city": "Oslo",
+        "zipCode": "0150",
+        "country": {
+          "iso2": "NO"
+        }
+      }
+    ],
+    "employment": {
+      "status": "EMPLOYED",
+      "employer": "Acme AS"
+    },
+    "financials": {
+      "income": {
+        "monthly": {
+          "amount": 58000,
+          "currency": "NOK"
+        }
+      }
+    }
+  },
+  "requestedProducts": [
+    {
+      "type": "CREDIT_CARD",
+      "creditLimit": {
+        "amount": 50000,
+        "currency": "NOK"
+      }
+    },
+    {
+      "type": "SAVINGS_ACCOUNT"
+    }
+  ],
+  "documents": [
+    {
+      "documentId": "doc-1",
+      "fileName": "payslip.pdf",
+      "mimeType": "application/pdf",
+      "uploadedAt": "2026-07-06T15:40:00Z"
+    }
+  ],
+  "preferences": {
+    "marketing": {
+      "email": true,
+      "sms": false
+    }
+  },
+  "legal": {
+    "termsAcceptedAt": "2026-07-06T15:41:00Z"
+  },
+  "metadata": {
+    "sourceSystem": "web",
+    "correlationId": "corr-abc-123"
+  }
+}

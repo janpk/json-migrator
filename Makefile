@@ -47,3 +47,13 @@ verify: ## Run full Maven verify lifecycle for all modules
 
 dependency-tree: ## Print dependency tree for one module, e.g. make dependency-tree MODULE=engine-tests
 	$(MVN) $(MVN_ARGS) -pl $(MODULE) dependency:tree
+
+.PHONY: demo-kotlin demo-java demos
+
+demo-kotlin: ## Run the Kotlin demo (credit-application v1..v6) tests
+	$(MVN) $(MVN_ARGS) -pl demo-kotlin -am test
+
+demo-java: ## Run the Java demo (credit-application v1..v6) tests
+	$(MVN) $(MVN_ARGS) -pl demo-java -am test
+
+demos: demo-kotlin demo-java ## Run both demo modules' tests

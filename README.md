@@ -15,6 +15,8 @@ and fails fast when a migration cannot be applied safely.
 ## Documentation
 
 - [Using json-migrator from Java](docs/using-java.md) — the Java-friendly `JsonMigrator` facade.
+- [demo-kotlin](demo-kotlin) — a worked credit-application example (v1→v6) using the Kotlin `schema { }` DSL.
+- [demo-java](demo-java) — a worked credit-application example (v1→v6) using the Java `JsonMigrator` facade.
 
 ## Core DSL operations
 
