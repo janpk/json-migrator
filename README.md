@@ -13,29 +13,55 @@ and fails fast when a migration cannot be applied safely.
 
 ## Quick start
 
+```kotlin
+val mapper = jacksonObjectMapper()
+val document = mapper.readTree("""{"schemaVersion":1,"name":"Jane Doe"}""") as ObjectNode
+
+schema(document) {
+    migration(1, 2) {
+        move("/name") to "/fullName"
+        add("/enabled") with BooleanNode.TRUE
+    }
+}
+// document is now {"schemaVersion":2,"fullName":"Jane Doe","enabled":true}
+```
+
+Declare every migration once; the engine reads the document's current version, skips the steps it has
+already applied, and runs the rest up to the latest — see [Getting started](docs/getting-started.md)
+and [Concepts](docs/concepts.md).
+
 ## Documentation
 
+- [Getting started](docs/getting-started.md) — parse, migrate, and serialize a document end to end.
+- [Concepts](docs/concepts.md) — schema, migrations, paths, the safety model, atomic execution, and pending clauses.
+- [Operations reference](docs/operations.md) — every DSL operation in detail, with before/after examples.
+- [Recipes](docs/recipes.md) — common migration patterns (rename, nest, flatten, merge, split, per-array).
+- [Errors](docs/errors.md) — the exception model and a troubleshooting guide.
 - [Using json-migrator from Java](docs/using-java.md) — the Java-friendly `JsonMigrator` facade.
+- [Internals & design invariants](docs/internals.md) — contributor notes for adding new operations.
 - [demo-kotlin](demo-kotlin) — a worked credit-application example (v1→v6) using the Kotlin `schema { }` DSL.
 - [demo-java](demo-java) — a worked credit-application example (v1→v6) using the Java `JsonMigrator` facade.
 
 ## Core DSL operations
 
+Each operation links to its full description — with before/after examples — in the
+[operations reference](docs/operations.md).
+
 | Operation | Use when | Example |
 | --- | --- | --- |
-| `add(path) with value` | Add a new field. Fails if the field already exists. | `add("/enabled") with BooleanNode.TRUE` |
-| `set(path) with value` | Create or overwrite a field. | `set("/enabled") with BooleanNode.TRUE` |
-| `copy(from) to target` | Duplicate a value while keeping the source. | `copy("/id") to "/legacyId"` |
-| `move(from) to target` | Rename, nest, flatten, or relocate a value. | `move("/city") to "/address/city"` |
-| `remove(path)` | Delete an existing field. | `remove("/deprecated")` |
-| `merge(sources...) into target` | Join multiple values into one string field. | `merge("/firstName", "/lastName") into "/fullName"` |
-| `split(source).into(targets...)` | Split one string field into multiple fields. | `split("/fullName").into("/firstName", "/lastName")` |
-| `forEach(path) { ... }` | Apply operations to every object in an array. | `forEach("/users") { move("/name") to "/fullName" }` |
-| `createObject(path)` | Ensure an object exists at a given path. | `createObject("/address")` |
-| `removeIfEmpty(path, cascade)` | Remove an object or array if it becomes empty after migration. | `removeIfEmpty("/address")` |
-| `requireExists(path)` | Validate that a required field exists before continuing. | `requireExists("/id")` |
-| `requireType(path, type)` | Validate that a value has the expected JSON type. | `requireType("/age", NUMBER)` |
-| `transform(path, lenient) { ... }` | Transform the value at a path using custom logic. | `transform("/age") { IntNode.valueOf(asInt() + 1) }` |
-| `custom { ... }`| Escape hatch for migrations that cannot be expressed with the DSL primitives. | `custom { node -> /* arbitrary Jackson code */ }` |
+| [`add(path) with value`](docs/operations.md#add) | Add a new field. Fails if the field already exists. | `add("/enabled") with BooleanNode.TRUE` |
+| [`set(path) with value`](docs/operations.md#set) | Create or overwrite a field. | `set("/enabled") with BooleanNode.TRUE` |
+| [`copy(from) to target`](docs/operations.md#copy) | Duplicate a value while keeping the source. | `copy("/id") to "/legacyId"` |
+| [`move(from) to target`](docs/operations.md#move) | Rename, nest, flatten, or relocate a value. | `move("/city") to "/address/city"` |
+| [`remove(path)`](docs/operations.md#remove) | Delete an existing field. | `remove("/deprecated")` |
+| [`merge(sources...) into target`](docs/operations.md#merge) | Join multiple values into one string field. | `merge("/firstName", "/lastName") into "/fullName"` |
+| [`split(source).into(targets...)`](docs/operations.md#split) | Split one string field into multiple fields. | `split("/fullName").into("/firstName", "/lastName")` |
+| [`forEach(path) { ... }`](docs/operations.md#foreach) | Apply operations to every object in an array. | `forEach("/users") { move("/name") to "/fullName" }` |
+| [`createObject(path)`](docs/operations.md#createobject) | Ensure an object exists at a given path. | `createObject("/address")` |
+| [`removeIfEmpty(path, cascade)`](docs/operations.md#removeifempty) | Remove an object or array if it becomes empty after migration. | `removeIfEmpty("/address")` |
+| [`requireExists(path)`](docs/operations.md#requireexists) | Validate that a required field exists before continuing. | `requireExists("/id")` |
+| [`requireType(path, type)`](docs/operations.md#requiretype) | Validate that a value has the expected JSON type. | `requireType("/age", NUMBER)` |
+| [`transform(path, lenient) { ... }`](docs/operations.md#transform) | Transform the value at a path using custom logic. | `transform("/age") { IntNode.valueOf(asInt() + 1) }` |
+| [`custom { ... }`](docs/operations.md#custom) | Escape hatch for migrations that cannot be expressed with the DSL primitives. | `custom { node -> /* arbitrary Jackson code */ }` |
 
 ## Dependency
