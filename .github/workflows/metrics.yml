@@ -10,11 +10,37 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  metrics:
+  # Verify on the non-baseline runtimes. Java 17 (the target baseline) is built in the publish job
+  # below, where its coverage build doubles as the 17 gate — so there is no separate fourth build.
+  verify:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # run every JDK even if one fails, for complete feedback
+      matrix:
+        java: [21, 25]
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Verify (Java ${{ matrix.java }})
+        run: make verify
+
+  # Builds on Java 17 with coverage and publishes the dashboard. It runs only after the other
+  # runtimes pass, and its own `make build` is the 17 gate + the source of the coverage report the
+  # metrics script reads from this same workspace — so no build result needs to be shuttled around.
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -23,12 +49,10 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 25
+          java-version: 17
           cache: maven
 
-      # If the detekt gate (or anything else) fails, the job stops here and
-      # nothing is published - the metrics branch only reflects green builds.
-      - name: Build with coverage
+      - name: Build with coverage (Java 17)
         run: make build
       - name: Install badge tooling
         run: pip install anybadge
