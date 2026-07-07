@@ -6,9 +6,9 @@
 
 ## Metrics
 
-* 35 number of properties
+* 36 number of properties
 
-* 122 number of functions
+* 124 number of functions
 
 * 54 number of classes
 
@@ -18,29 +18,29 @@
 
 ## Complexity Report
 
-* 905 lines of code (loc)
+* 916 lines of code (loc)
 
-* 662 source lines of code (sloc)
+* 671 source lines of code (sloc)
 
-* 423 logical lines of code (lloc)
+* 433 logical lines of code (lloc)
 
 * 1 comment lines of code (cloc)
 
-* 171 cyclomatic complexity (mcc)
+* 176 cyclomatic complexity (mcc)
 
-* 32 cognitive complexity
+* 33 cognitive complexity
 
 * 0 number of total code smells
 
 * 0% comment source ratio
 
-* 404 mcc per 1,000 lloc
+* 406 mcc per 1,000 lloc
 
 * 0 code smells per 1,000 lloc
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:02 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:32:45 UTC
 
 
 ---
@@ -85,7 +85,7 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:09 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:32:53 UTC
 
 
 ---
@@ -96,9 +96,9 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:
 
 ## Metrics
 
-* 24 number of properties
+* 26 number of properties
 
-* 194 number of functions
+* 199 number of functions
 
 * 25 number of classes
 
@@ -108,15 +108,15 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:
 
 ## Complexity Report
 
-* 2,293 lines of code (loc)
+* 2,359 lines of code (loc)
 
-* 2,023 source lines of code (sloc)
+* 2,084 source lines of code (sloc)
 
-* 1,535 logical lines of code (lloc)
+* 1,579 logical lines of code (lloc)
 
-* 14 comment lines of code (cloc)
+* 16 comment lines of code (cloc)
 
-* 199 cyclomatic complexity (mcc)
+* 204 cyclomatic complexity (mcc)
 
 * 0 cognitive complexity
 
@@ -130,5 +130,5 @@ generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:
 
 ## Findings (0)
 
-generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 07:51:19 UTC
+generated with [detekt version 1.23.8](https://detekt.dev/) on 2026-07-07 09:33:02 UTC
 
