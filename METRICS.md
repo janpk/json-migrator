@@ -1,6 +1,6 @@
 # Metrics Overview
 
-Updated: 2026-07-07T13:30:14+00:00 (`1c7b77e`)
+Updated: 2026-07-07T13:50:32+00:00 (`9a5e47d`)
 
 ## Stack
 
@@ -36,8 +36,8 @@ Updated: 2026-07-07T13:30:14+00:00 (`1c7b77e`)
 | `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/OperationDescribeTest.kt` | 10 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/Document.kt` | 6 |
 | `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/exception/MigrationException.kt` | 6 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslSchemaTest.kt` | 4 |
-| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/dsl/MigrationBuilder.kt` | 4 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslVersionValidationTest.kt` | 3 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/CustomTest.kt` | 3 |
-| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/operation/ValueStrategyTest.kt` | 3 |
+| `engine-test/src/test/kotlin/com/mosedotten/json/migrator/engine/test/dsl/DslSchemaTest.kt` | 5 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/dsl/MigrationBuilder.kt` | 5 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/dsl/Migration.kt` | 3 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/dsl/SchemaBuilder.kt` | 3 |
+| `engine/src/main/kotlin/com/mosedotten/json/migrator/engine/operation/JsonPathNavigation.kt` | 3 |
