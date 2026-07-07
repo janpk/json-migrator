@@ -13,7 +13,8 @@ migration, and serialize the migrated result.
 </dependency>
 ```
 
-The engine is a Kotlin/JVM library and uses Jackson 3 `tools.jackson` types.
+The engine is a Kotlin/JVM library and uses Jackson 3 `tools.jackson` types. It requires **Java 17+**
+and **Jackson 3**, and is usable from **Kotlin 2.0+**.
 
 ## Run a migration
 

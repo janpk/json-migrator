@@ -8,7 +8,9 @@ By contributing you agree that your contributions are licensed under the project
 
 ## Prerequisites
 
-- **JDK 25** (the build targets Java 25 and Kotlin 2.3.21).
+- **JDK 17 or newer** to build. The build emits **Java 17** bytecode (via `--release 17`) and is
+  verified on Java 17, 21, and 25 in CI. It is built with Kotlin 2.3.21 but pinned to Kotlin API
+  level 2.0 (see [ADR 0001](docs/adr/0001-runtime-baselines.md)).
 - **No local Maven install needed** — use the bundled wrapper (`./mvnw`, or `mvnw.cmd` on Windows).
 - **Optional:** [`mvnd`](https://github.com/apache/maven-mvnd) (Maven Daemon) for a much faster warm
   build. The `Makefile` uses it automatically when you set `MVN_DAEMON=true`.

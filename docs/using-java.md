@@ -15,7 +15,8 @@ and `java.util.function` callbacks instead of Kotlin DSL constructs.
 </dependency>
 ```
 
-This transitively brings in `json-migrator-engine` and Jackson.
+This transitively brings in `json-migrator-engine` and Jackson. The library **requires Java 17+**
+and **Jackson 3** (see below).
 
 ## Jackson 3, not Jackson 2
 
