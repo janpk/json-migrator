@@ -30,8 +30,8 @@ live in [`docs/`](docs).
 ## Building and running the checks
 
 The full quality gate is `make build` — a clean build that runs the formatting check, tests, detekt,
-and Kover coverage. Run it before pushing; there is currently no PR CI check, so green locally is the
-contract:
+and Kover coverage. A GitHub Actions workflow runs it on every pull request, so run it locally before
+pushing to get the same result faster:
 
 ```bash
 make build         # or: ./mvnw clean verify
