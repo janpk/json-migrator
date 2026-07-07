@@ -16,6 +16,12 @@
             <groupId>com.mosedotten.json.migrator</groupId>
             <artifactId>json-migrator-engine</artifactId>
         </dependency>
+        <!-- Not used by these tests; present so kover's aggregate report (written last by this
+             module) walks into engine-java and includes the Java facade's coverage. -->
+        <dependency>
+            <groupId>com.mosedotten.json.migrator</groupId>
+            <artifactId>json-migrator-engine-java</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

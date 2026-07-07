@@ -14,6 +14,8 @@ and fails fast when a migration cannot be applied safely.
 
 ## Documentation
 
+- [Using json-migrator from Java](docs/using-java.md) — the Java-friendly `JsonMigrator` facade.
+
 ## Core DSL operations
 
 | Operation | Use when | Example |
