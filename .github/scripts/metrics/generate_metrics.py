@@ -28,8 +28,9 @@ CHURN_DAYS = 90
 # Root pom.xml property -> (badge file name, badge label). Kept in sync automatically: the badge
 # value is read from the pom, so bumping a version bumps the badge on the next metrics run.
 VERSION_BADGES = {
-    "java.version": ("java_version", "java"),
+    "maven.compiler.release": ("java_version", "java"),
     "kotlin.version": ("kotlin_version", "kotlin"),
+    "kotlin.compiler.languageVersion": ("kotlin_language_version", "kotlin language"),
     "jackson.version": ("jackson_version", "jackson"),
 }
 VERSION_COLOR = "#007ec6"
@@ -231,7 +232,7 @@ Updated: {m['timestamp']} (`{m['sha']}`)
 
 ## Stack
 
-![](badges/java_version.svg) ![](badges/kotlin_version.svg) ![](badges/jackson_version.svg)
+![](badges/java_version.svg) ![](badges/kotlin_version.svg) ![](badges/kotlin_language_version.svg) ![](badges/jackson_version.svg)
 
 ## Tests
 
