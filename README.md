@@ -1,7 +1,8 @@
 # json-migrator - migration of JSON structures
 
-| **Tests** | ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_results.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_classes.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_cases.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_skipped.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_ratio.svg) |
+| **Stack** | ![](https://github.com/janpk/json-migrator/raw/metrics/badges/java_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/kotlin_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/jackson_version.svg) |
 | --- | --- |
+| **Tests** | ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_results.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_classes.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_cases.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_skipped.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/test_ratio.svg) |
 | **Coverage** | ![](https://github.com/janpk/json-migrator/raw/metrics/badges/lines.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/branches.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/classes.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/instructions.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/methods.svg) |
 
 [Full metrics dashboard](https://github.com/janpk/json-migrator/blob/metrics/METRICS.md)

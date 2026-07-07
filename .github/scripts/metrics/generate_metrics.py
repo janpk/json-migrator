@@ -21,8 +21,18 @@ import anybadge
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "out"
 KOVER_XML = ROOT / "target/site/kover/report.xml"
+POM = ROOT / "pom.xml"
 SUREFIRE_GLOB = "**/surefire-reports/TEST-*.xml"
 CHURN_DAYS = 90
+
+# Root pom.xml property -> (badge file name, badge label). Kept in sync automatically: the badge
+# value is read from the pom, so bumping a version bumps the badge on the next metrics run.
+VERSION_BADGES = {
+    "java.version": ("java_version", "java"),
+    "kotlin.version": ("kotlin_version", "kotlin"),
+    "jackson.version": ("jackson_version", "jackson"),
+}
+VERSION_COLOR = "#007ec6"
 
 COVERAGE_LABELS = {
     "LINE": "lines",
@@ -72,6 +82,16 @@ def junit_metrics():
         "test_failures": failures,
         "test_skipped": skipped,
     }
+
+
+def version_metrics():
+    """Read dependency/toolchain versions from the root pom.xml properties."""
+    text = POM.read_text()
+    result = {}
+    for prop, (name, _label) in VERSION_BADGES.items():
+        match = re.search(rf"<{re.escape(prop)}>([^<]+)</{re.escape(prop)}>", text)
+        result[name] = match.group(1).strip() if match else "unknown"
+    return result
 
 
 def kotlin_files(subdir):
@@ -170,6 +190,8 @@ def badge(name, label, value, badge_color):
 
 
 def render_badges(m):
+    for _prop, (name, label) in VERSION_BADGES.items():
+        badge(name, label, m[name], VERSION_COLOR)
     for key in COVERAGE_LABELS.values():
         badge(key, key, f"{m[key]}%", color(m[key], 80, 60))
     badge("test_classes", "test classes", m["test_classes"], "gray")
@@ -206,6 +228,10 @@ def render_markdown(m):
     metrics_md = f"""# Metrics Overview
 
 Updated: {m['timestamp']} (`{m['sha']}`)
+
+## Stack
+
+![](badges/java_version.svg) ![](badges/kotlin_version.svg) ![](badges/jackson_version.svg)
 
 ## Tests
 
@@ -249,7 +275,7 @@ def main():
     sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
                          capture_output=True, text=True, cwd=ROOT, check=True).stdout.strip()
     metrics = {"sha": sha, "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds")}
-    metrics |= (coverage_metrics() | junit_metrics() | complexity_metrics()
+    metrics |= (version_metrics() | coverage_metrics() | junit_metrics() | complexity_metrics()
                 | detekt_metrics() | churn_metrics())
 
     render_badges(metrics)
