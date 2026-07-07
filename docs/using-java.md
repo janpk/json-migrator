@@ -53,9 +53,10 @@ ObjectNode result = JsonMigrator.migrate(root)
     .run();
 ```
 
-`run()` mutates the node **in place** and also returns it. Each migration validates that the
-document's version field equals its `from` version, applies its operations in order, and bumps the
-version field to `to`.
+`run()` mutates the node **in place** and also returns it. Each migration runs only when its `from`
+matches the document's current version; migrations the document has already outgrown are skipped, so
+you can declare the whole pipeline and feed a document at any version. When a migration runs it
+applies its operations in order and bumps the version field to `to`.
 
 ## Lifecycle
 
@@ -158,8 +159,9 @@ m.split("/fullName", commaSplitter, "/firstName", "/lastName");
 
 ## Chaining multiple migrations
 
-Each `migration(from, to, …)` is applied in the order declared. The version field must match the
-`from` of the first migration and is advanced by each step:
+Each `migration(from, to, …)` is applied in the order declared, advancing the version one step at a
+time. The engine picks up the document at whatever version it declares and skips the steps it has
+already passed, so declaring the full pipeline and feeding a partially-migrated document is safe:
 
 ```java
 ObjectNode result = JsonMigrator.migrate(root)   // root at schemaVersion 1
@@ -167,6 +169,10 @@ ObjectNode result = JsonMigrator.migrate(root)   // root at schemaVersion 1
     .migration(2, 3, m -> m.add("/verified", BooleanNode.TRUE))
     .run();                                       // result at schemaVersion 3
 ```
+
+A document already at `schemaVersion 2` above would skip the `1 -> 2` step and run only `2 -> 3`; a
+document already at (or beyond) the last version is returned untouched. A document whose version sits
+*before* the first applicable step (a forward gap) raises `MigrationVersionException`.
 
 Adjacent versions only (`|from - to| == 1`); `0` is not a valid version. Downgrades
 (e.g. `migration(2, 1)`) are permitted.
@@ -176,8 +182,9 @@ Adjacent versions only (`|from - to| == 1`); `0` is not a valid version. Downgra
 All failures are unchecked and extend `com.mosedotten.json.migrator.engine.exception.MigrationException`
 (a `RuntimeException`), so nothing forces a `try/catch`.
 
-- **`MigrationVersionException`** — the document's version doesn't match, the version field is
-  missing (and not opted in), a version is `0`, or `from`/`to` are not adjacent.
+- **`MigrationVersionException`** — the document's version sits before an applicable migration (a
+  forward gap), the version field is missing (and not opted in) or non-integer, a version is `0`, or
+  `from`/`to` are not adjacent.
 - **`MigrationExecutionException`** — an operation failed while applying a migration. It wraps the
   underlying cause and carries context:
 

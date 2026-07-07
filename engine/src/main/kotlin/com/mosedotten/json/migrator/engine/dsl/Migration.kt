@@ -5,7 +5,6 @@ import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException
 import com.mosedotten.json.migrator.engine.exception.MigrationVersionException
 import com.mosedotten.json.migrator.engine.operation.Document
 import com.mosedotten.json.migrator.engine.operation.Operation
-import tools.jackson.databind.JsonNode
 import tools.jackson.databind.node.ObjectNode
 import kotlin.math.abs
 
@@ -26,9 +25,18 @@ class Migration(
     }
 
     fun execute(rootNode: ObjectNode): ObjectNode {
-        validateVersionField(rootNode)
-        return execution.execute(rootNode) { applyOperations(rootNode) }
+        val version = resolveVersion(rootNode) ?: return runMigration(rootNode)
+        return applyOrSkip(rootNode, version)
     }
+
+    private fun applyOrSkip(rootNode: ObjectNode, version: Int): ObjectNode {
+        if (version == from) return runMigration(rootNode)
+        if (isAlreadyApplied(version)) return rootNode
+        throw gapException(version)
+    }
+
+    private fun runMigration(rootNode: ObjectNode): ObjectNode =
+        execution.execute(rootNode) { applyOperations(rootNode) }
 
     private fun applyOperations(rootNode: ObjectNode): ObjectNode {
         val document = Document(rootNode)
@@ -45,27 +53,30 @@ class Migration(
         }
     }
 
-    private fun validateVersionField(rootNode: ObjectNode) {
-        val version = rootNode.get(versionField)
-        if (version == null) validateMissingVersionField() else validateExpectedVersion(version)
-    }
-
-    private fun validateMissingVersionField() {
-        if (!allowNoVersionField) {
-            throw MigrationVersionException(from, to, "root node must contain version field '$versionField'")
+    private fun resolveVersion(rootNode: ObjectNode): Int? {
+        val version = rootNode.get(versionField) ?: return resolveMissingVersion()
+        if (!version.isInt) {
+            throw MigrationVersionException(
+                from,
+                to,
+                "version field '$versionField' must be an integer",
+            )
         }
+        return version.intValue()
     }
 
-    private fun validateExpectedVersion(version: JsonNode) {
-        if (version.isVersion(from)) return
-        throw MigrationVersionException(
-            from,
-            to,
-            "root node version field '$versionField' must be equal to from version $from",
-        )
+    private fun resolveMissingVersion(): Int? {
+        if (allowNoVersionField) return null
+        throw MigrationVersionException(from, to, "root node must contain version field '$versionField'")
     }
 
-    private fun JsonNode.isVersion(expected: Int) = isInt && intValue() == expected
+    private fun isAlreadyApplied(version: Int) = if (to > from) version > from else version < from
+
+    private fun gapException(version: Int) = MigrationVersionException(
+        from,
+        to,
+        "root node version field '$versionField' is $version; no migration advances it to from version $from",
+    )
 
     private fun updateVersionField(rootNode: ObjectNode) {
         rootNode.put(versionField, to)

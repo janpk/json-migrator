@@ -33,6 +33,38 @@ internal class DslSchemaTest : TestFixtures() {
     }
 
     @Test
+    @Suppress("LongMethod") // Test methods are naturally longer
+    fun `migrations resume from the document's current version, skipping earlier ones`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":2,"name":"John Doe"}""",
+            """{"schemaVersion":3,"name":"John Doe","contact":{"verified":true}}""",
+        ) {
+            migration(1, 2) {
+                add("/enabled") with BooleanNode.TRUE
+            }
+            migration(2, 3) {
+                add("/contact/verified") with BooleanNode.TRUE
+            }
+        }
+    }
+
+    @Test
+    @Suppress("LongMethod") // Test methods are naturally longer
+    fun `a document already at or beyond the latest version is returned untouched`() {
+        assertSchemaMigrates(
+            """{"schemaVersion":3,"name":"John Doe"}""",
+            """{"schemaVersion":3,"name":"John Doe"}""",
+        ) {
+            migration(1, 2) {
+                add("/enabled") with BooleanNode.TRUE
+            }
+            migration(2, 3) {
+                add("/contact/verified") with BooleanNode.TRUE
+            }
+        }
+    }
+
+    @Test
     fun `an empty schema returns the node untouched`() {
         assertSchemaMigrates(
             """{"schemaVersion":1,"name":"John Doe"}""",

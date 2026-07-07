@@ -4,6 +4,7 @@ import com.mosedotten.json.migrator.engine.dsl.clause.add
 import com.mosedotten.json.migrator.engine.dsl.schema
 import com.mosedotten.json.migrator.engine.exception.MigrationVersionException
 import com.mosedotten.json.migrator.engine.test.util.TestFixtures
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -46,10 +47,43 @@ internal class DslVersionValidationTest : TestFixtures() {
     }
 
     @Test
-    fun `a node whose version does not match the from version is rejected`() {
+    fun `a migration whose from is behind the document version is skipped`() {
+        val root = obj("""{"schemaVersion":5,"name":"John Doe"}""")
+        schema(root) {
+            migration(1, 2) {
+                add("/enabled") with BooleanNode.TRUE
+            }
+        }
+        assertEquals(obj("""{"schemaVersion":5,"name":"John Doe"}"""), root)
+    }
+
+    @Test
+    fun `a forward gap in versions is rejected`() {
         assertThrows<MigrationVersionException> {
-            schema(obj("""{"schemaVersion":5,"name":"John Doe"}""")) {
-                migration(1, 2) {
+            schema(obj("""{"schemaVersion":1,"name":"John Doe"}""")) {
+                migration(3, 4) {
+                    add("/enabled") with BooleanNode.TRUE
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a downgrade whose from is ahead of the document version is skipped`() {
+        val root = obj("""{"schemaVersion":1,"name":"John Doe"}""")
+        schema(root) {
+            migration(2, 1) {
+                add("/enabled") with BooleanNode.TRUE
+            }
+        }
+        assertEquals(obj("""{"schemaVersion":1,"name":"John Doe"}"""), root)
+    }
+
+    @Test
+    fun `a backward gap in versions is rejected`() {
+        assertThrows<MigrationVersionException> {
+            schema(obj("""{"schemaVersion":3,"name":"John Doe"}""")) {
+                migration(2, 1) {
                     add("/enabled") with BooleanNode.TRUE
                 }
             }

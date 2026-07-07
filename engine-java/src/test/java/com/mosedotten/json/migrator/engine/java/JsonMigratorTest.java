@@ -2,7 +2,6 @@ package com.mosedotten.json.migrator.engine.java;
 
 import com.mosedotten.json.migrator.engine.dsl.ExecutionStrategy;
 import com.mosedotten.json.migrator.engine.exception.MigrationExecutionException;
-import com.mosedotten.json.migrator.engine.exception.MigrationVersionException;
 import com.mosedotten.json.migrator.engine.operation.JsonType;
 import com.mosedotten.json.migrator.engine.operation.ValueJoinerStrategy;
 import com.mosedotten.json.migrator.engine.operation.ValueSplitterStrategy;
@@ -139,11 +138,11 @@ class JsonMigratorTest {
     }
 
     @Test
-    void rejectsANodeWhoseVersionDoesNotMatchTheFromVersion() {
-        assertThrows(MigrationVersionException.class, () -> JsonMigrator.migrate(
-                obj("{\"schemaVersion\":5,\"name\":\"John\"}"))
+    void skipsAMigrationWhoseFromIsBehindTheDocumentVersion() {
+        ObjectNode result = JsonMigrator.migrate(obj("{\"schemaVersion\":5,\"name\":\"John\"}"))
             .migration(1, 2, m -> m.add("/enabled", BooleanNode.TRUE))
-            .run());
+            .run();
+        assertEquals(obj("{\"schemaVersion\":5,\"name\":\"John\"}"), result);
     }
 
     @Test
