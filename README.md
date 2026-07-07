@@ -11,6 +11,10 @@
 It applies explicit migrations to a Jackson `ObjectNode`, updates the configured version field,
 and fails fast when a migration cannot be applied safely.
 
+A typical use case is when json documents are stored in a database or received as a Kafka event. The application has a DTO structure matching the json and the DTO structure evolves over time. To avoid mass updates or mapper classes, the json migrator can be used to migrate a received json 
+document just in time so that it can be deserialized into the target DTO structure. When processing is done, the DTO can be serialized back to the database reflecting the latest DTO structure. This assumes that the application can live with the situation were the database contains multiple 
+versions of the json document.
+
 ## Quick start
 
 ```kotlin
@@ -39,6 +43,7 @@ and [Concepts](docs/concepts.md).
 - [Errors](docs/errors.md) — the exception model and a troubleshooting guide.
 - [Using json-migrator from Java](docs/using-java.md) — the Java-friendly `JsonMigrator` facade.
 - [Internals & design invariants](docs/internals.md) — contributor notes for adding new operations.
+- [Contributing](CONTRIBUTING.md) — how to build, the quality gates, and conventions for changes.
 - [demo-kotlin](demo-kotlin) — a worked credit-application example (v1→v6) using the Kotlin `schema { }` DSL.
 - [demo-java](demo-java) — a worked credit-application example (v1→v6) using the Java `JsonMigrator` facade.
 

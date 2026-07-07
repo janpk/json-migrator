@@ -29,8 +29,7 @@ jobs:
       # If the detekt gate (or anything else) fails, the job stops here and
       # nothing is published - the metrics branch only reflects green builds.
       - name: Build with coverage
-        run: ./mvnw -q verify
-
+        run: make build
       - name: Install badge tooling
         run: pip install anybadge
 
