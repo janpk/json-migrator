@@ -35,8 +35,12 @@ jobs:
 
       - run: gpg --list-secret-keys --keyid-format=long
 
+      # jgitver derives the version from git, but on a tag build the tag name IS the version, so we
+      # pin it explicitly (`jgitver.use-version`). This is deterministic regardless of how the runner's
+      # detached-tag checkout looks to jgitver — a plain build between tags still gets the derived
+      # -SNAPSHOT, but a release is always exactly the tag (never a SNAPSHOT, which Central rejects).
       - name: Build, sign, and deploy to Maven Central
-        run: ./mvnw -Prelease -Dkover.skip=true clean deploy
+        run: ./mvnw -Prelease -Dkover.skip=true -Djgitver.use-version="$GITHUB_REF_NAME" clean deploy
         env:
           MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}

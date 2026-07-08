@@ -64,10 +64,11 @@ manual step.
 ### Manual/local release (fallback)
 
 If you need to release without CI, put the Portal token under a `central` server in
-`~/.m2/settings.xml`, check out the tag, and run:
+`~/.m2/settings.xml`, check out the tag, and run (pinning the version to the tag with
+`jgitver.use-version` so it is never a `-SNAPSHOT`, which Central rejects):
 
 ```bash
-./mvnw -Prelease -Dkover.skip=true -Dgpg.passphrase=<PASSPHRASE> clean deploy
+./mvnw -Prelease -Dkover.skip=true -Djgitver.use-version=1.2.3 -Dgpg.passphrase=<PASSPHRASE> clean deploy
 ```
 
 ## Notes and follow-ups
