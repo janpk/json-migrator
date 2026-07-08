@@ -48,7 +48,7 @@
         <!-- Empty default so surefire's @{argLine} resolves even when coverage is skipped
              (e.g. `make build` / -Dkover.skip=true); Kover overrides it with the agent when active. -->
         <argLine></argLine>
-        <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
         <compiler-plugin.version>3.15.0</compiler-plugin.version>
         <detekt-maven-plugin.version>1.23.8</detekt-maven-plugin.version>
         <jackson.version>3.1.4</jackson.version>
