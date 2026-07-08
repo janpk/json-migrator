@@ -19,6 +19,8 @@
     <properties>
         <!-- No Kotlin here for detekt to analyse. -->
         <detekt.skip>true</detekt.skip>
+        <!-- Aggregation-only module; not published to Maven Central. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>

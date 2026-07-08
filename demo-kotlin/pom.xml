@@ -10,6 +10,11 @@
     <artifactId>json-migrator-demo-kotlin</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <!-- Example module; not published to Maven Central. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <!-- Worked example: migrating a credit-application document through v1..v6 with the Kotlin DSL. -->
     <dependencies>
         <dependency>

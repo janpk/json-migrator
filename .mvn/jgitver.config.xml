@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://jgitver.github.io/maven/configuration/1.1.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://jgitver.github.io/maven/configuration/1.1.0 https://jgitver.github.io/maven/configuration/jgitver-configuration-v1_1_0.xsd">
+  <!-- Maven-like semantics: on a bare `1.2.3` tag the version is exactly 1.2.3; between tags it is
+       the next patch as a -SNAPSHOT. -->
+  <mavenLike>true</mavenLike>
+  <!-- Don't append the branch name to versions built on main. -->
+  <nonQualifierBranches>main</nonQualifierBranches>
+</configuration>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions xmlns="http://maven.apache.org/EXTENSIONS/1.0.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://maven.apache.org/EXTENSIONS/1.0.0 http://maven.apache.org/xsd/core-extensions-1.0.0.xsd">
+  <!--
+    jgitver derives the Maven version from git: a build sitting on tag `1.2.3` is version 1.2.3,
+    and builds between tags are the next patch -SNAPSHOT (see .mvn/jgitver.config.xml). This means
+    the pom <version> values are placeholders — the real version comes from the tag at build time.
+    Because of this, every build needs the git history/tags, so CI checks out with fetch-depth: 0.
+  -->
+  <extension>
+    <groupId>fr.brouillard.oss</groupId>
+    <artifactId>jgitver-maven-plugin</artifactId>
+    <version>1.9.0</version>
+  </extension>
+</extensions>

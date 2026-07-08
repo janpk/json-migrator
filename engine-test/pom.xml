@@ -13,6 +13,8 @@
     <properties>
         <!-- No production Kotlin here (tests only), so detekt has nothing to analyse. -->
         <detekt.skip>true</detekt.skip>
+        <!-- Internal test module; not published to Maven Central. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>

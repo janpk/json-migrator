@@ -8,7 +8,33 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>com.mosedotten.json.migrator</name>
+  <name>json-migrator</name>
+  <description>A Kotlin DSL for migrating JSON documents between schema versions on top of Jackson 3.</description>
+  <url>https://github.com/janpk/json-migrator</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/license/mit</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>janpk</id>
+      <name>Jan-Petter Krüger</name>
+      <url>https://github.com/janpk</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/janpk/json-migrator.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/janpk/json-migrator.git</developerConnection>
+    <url>https://github.com/janpk/json-migrator</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <modules>
     <module>engine</module>
     <module>engine-java</module>
@@ -22,6 +48,7 @@
     <!-- Empty default so surefire's @{argLine} resolves even when coverage is skipped
          (e.g. `make build` / -Dkover.skip=true); Kover overrides it with the agent when active. -->
     <argLine></argLine>
+    <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
     <compiler-plugin.version>3.15.0</compiler-plugin.version>
     <detekt-maven-plugin.version>1.23.8</detekt-maven-plugin.version>
     <jackson.version>3.1.4</jackson.version>
@@ -36,6 +63,7 @@
     <kover-maven-plugin.version>0.9.8</kover-maven-plugin.version>
     <ktlint.version>1.8.0</ktlint.version>
     <maven.compiler.release>17</maven.compiler.release>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -63,27 +91,27 @@
       <dependency>
         <groupId>com.mosedotten.json.migrator</groupId>
         <artifactId>json-migrator-engine</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.mosedotten.json.migrator</groupId>
         <artifactId>json-migrator-engine-java</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.mosedotten.json.migrator</groupId>
         <artifactId>json-migrator-demo-kotlin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.mosedotten.json.migrator</groupId>
         <artifactId>json-migrator-demo-java</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.mosedotten.json.migrator</groupId>
         <artifactId>json-migrator-engine-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -285,5 +313,85 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!--
+      Activated only when publishing to Maven Central (./mvnw -Prelease deploy). It attaches the
+      sources and Dokka javadoc jars, signs every artifact with GPG, and uploads the bundle through
+      the Sonatype Central Portal. Kept out of the default build so day-to-day builds stay fast.
+      Modules not meant for consumers (demos, engine-test, report) set maven.deploy.skip=true.
+    -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven-source-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!--
+            Central requires a -javadoc.jar to exist and be signed. This attaches a valid (empty)
+            one, which is version-agnostic and needs no extra plugin resolution. To ship rendered
+            Kotlin API docs instead, replace this execution with the Dokka plugin (see the release
+            runbook / ADR follow-ups) once a dokka-maven-plugin version matching the Kotlin here is
+            confirmed.
+          -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>${maven-jar-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <classifier>javadoc</classifier>
+                  <classesDirectory>${project.build.directory}/empty-javadoc</classesDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${central-publishing-maven-plugin.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <!-- Matches the <server> id in ~/.m2/settings.xml holding the Central Portal token. -->
+              <publishingServerId>central</publishingServerId>
+              <!-- Leave the deployment in the Portal for manual review/publish the first time. -->
+              <autoPublish>false</autoPublish>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

@@ -13,6 +13,8 @@
     <properties>
         <!-- A pure-Java module, so detekt (Kotlin static analysis) has nothing to analyse. -->
         <detekt.skip>true</detekt.skip>
+        <!-- Example module; not published to Maven Central. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <!-- Worked example: migrating a credit-application document through v1..v6 with the Java facade. -->

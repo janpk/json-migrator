@@ -1,0 +1,39 @@
+name: Release
+
+# Triggered by pushing a bare SemVer tag (created via `make release VERSION=x.y.z`).
+# jgitver turns that tag into the Maven version, and the release profile signs and uploads to Central.
+on:
+  push:
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # jgitver derives the version from the tag and full history
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+          # setup-java writes ~/.m2/settings.xml: a `central` server mapped to the env vars below,
+          # imports the GPG key, and wires the passphrase env var for maven-gpg-plugin.
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Build, sign, and deploy to Maven Central
+        run: ./mvnw -Prelease -Dkover.skip=true clean deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

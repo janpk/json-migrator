@@ -20,6 +20,8 @@ jobs:
         java: [17, 21, 25]
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # jgitver reads git history/tags to derive the version
 
       - uses: actions/setup-java@v5
         with:
