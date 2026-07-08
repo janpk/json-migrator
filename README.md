@@ -15,6 +15,16 @@ A typical use case is when json documents are stored in a database or received a
 document just in time so that it can be deserialized into the target DTO structure. When processing is done, the DTO can be serialized back to the database reflecting the latest DTO structure. This assumes that the application can live with the situation were the database contains multiple 
 versions of the json document.
 
+```mermaid
+flowchart LR
+    DB[(Database)] -->|"stored JSON (any version)"| M
+    Kafka[/"Kafka event"/] -->|"received JSON (any version)"| M
+    M["json-migrator<br/>migrate to latest"] --> DTO["Deserialize into<br/>latest DTO"]
+    DTO --> App["Application logic"]
+    App --> Ser["Serialize as<br/>latest version"]
+    Ser -->|"write back"| DB
+```
+
 ## Quick start
 
 ```kotlin

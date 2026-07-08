@@ -31,6 +31,37 @@ interface Operation {
   **computed from runtime state** (`Merge`/`Split` build their `Add`/`Remove` children from the
   document contents).
 
+```mermaid
+classDiagram
+    class Operation {
+        <<interface>>
+        +apply(Document)
+        +describe() String
+    }
+    class CompositeOperation {
+        <<abstract>>
+        #steps(Document) List~Operation~
+        +apply(Document)
+    }
+    Operation <|.. CompositeOperation
+    Operation <|.. Add
+    Operation <|.. Copy
+    Operation <|.. Remove
+    CompositeOperation <|-- Move
+    CompositeOperation <|-- Merge
+    CompositeOperation <|-- Split
+    Move ..> Copy : static
+    Move ..> Remove : static
+    Merge ..> Add : runtime
+    Merge ..> Remove : runtime
+    Split ..> Add : runtime
+    Split ..> Remove : runtime
+```
+
+`Add`, `Copy`, and `Remove` above are representative simple operations; `Set`, `Custom`, `Transform`,
+`ForEach`, `CreateObject`, `RemoveIfEmpty`, `RequireExists`, and `RequireType` implement `Operation`
+directly the same way.
+
 **Rules**
 
 - New multi-step operations extend `CompositeOperation`; do not hand-roll the apply loop.

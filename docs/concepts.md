@@ -46,6 +46,20 @@ document already at (or beyond) the last version is returned unchanged. If a doc
 *before* the first step that could advance it — a gap in the chain — the run fails with a
 `MigrationVersionException`.
 
+The engine walks the declared steps in order and, for each one, compares the document's current
+version to the step's `from`:
+
+```mermaid
+flowchart TD
+    Start([Read current version]) --> Step{"Next migration<br/>from → to"}
+    Step -->|"current == from"| Apply["Apply operations,<br/>set version = to"]
+    Step -->|"current &gt; from<br/>(already applied)"| Skip["Skip step"]
+    Step -->|"current &lt; from<br/>(gap in chain)"| Fail[["MigrationVersionException"]]
+    Apply --> Step
+    Skip --> Step
+    Step -->|"no steps left"| Done([Document at latest version])
+```
+
 ## Paths
 
 Paths use JSON Pointer style object paths:
@@ -82,6 +96,15 @@ By default, execution is atomic: the engine snapshots the document before runnin
 operation or migration fails, restores the original document in place before rethrowing. A failure in
 a later migration therefore rolls back earlier successful migrations, so the node is never left in a
 partially migrated state.
+
+```mermaid
+flowchart TD
+    Snap["Snapshot document"] --> Run["Run migration chain"]
+    Run --> Q{"Any operation<br/>throws?"}
+    Q -->|No| Commit([Keep mutations])
+    Q -->|Yes| Restore["Restore snapshot<br/>in place"]
+    Restore --> Rethrow[["Rethrow as<br/>MigrationExecutionException"]]
+```
 
 This is controlled by the `execution` parameter on `schema(...)`, which takes an `ExecutionStrategy`:
 
