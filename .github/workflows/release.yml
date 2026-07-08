@@ -45,7 +45,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
-          πargs: --latest --strip all --output RELEASE_NOTES.md
+          args: --latest --strip all --output RELEASE_NOTES.md
 
       - name: Create GitHub release
         env:
