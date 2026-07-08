@@ -33,6 +33,8 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
+      - run: gpg --list-secret-keys --keyid-format=long
+
       - name: Build, sign, and deploy to Maven Central
         run: ./mvnw -Prelease -Dkover.skip=true clean deploy
         env:
