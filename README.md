@@ -7,12 +7,17 @@
 
 [Full metrics dashboard](https://github.com/janpk/json-migrator/blob/metrics/METRICS.md)
 
-`json-migrator` is a Kotlin DSL for transforming JSON documents between schema versions.
-It applies explicit migrations to a Jackson `ObjectNode`, updates the configured version field,
-and fails fast when a migration cannot be applied safely.
+`json-migrator` is a Kotlin and Java library for **JSON schema migration** — transforming JSON
+documents between schema versions as your data model evolves. It applies explicit, declarative
+migrations to a Jackson 3 `ObjectNode`, updates the configured version field, and fails fast when a
+migration cannot be applied safely. Use it from Kotlin via a concise DSL, or from Java via the
+`JsonMigrator` facade.
 
-A typical use case is when json documents are stored in a database or received as a Kafka event. The application has a DTO structure matching the json and the DTO structure evolves over time. To avoid mass updates or mapper classes, the json migrator can be used to migrate a received json 
-document just in time so that it can be deserialized into the target DTO structure. When processing is done, the DTO can be serialized back to the database reflecting the latest DTO structure. This assumes that the application can live with the situation were the database contains multiple 
+Think of it as schema evolution for JSON-at-rest: documents stored in a database or arriving on a
+Kafka topic are migrated just in time to the latest version your code expects.
+
+A typical use case is when json documents are stored in a database or received as a Kafka event. The application has a DTO structure matching the json and the DTO structure evolves over time. To avoid mass updates or mapper classes, the json migrator can be used to migrate a received json
+document just in time so that it can be deserialized into the target DTO structure. When processing is done, the DTO can be serialized back to the database reflecting the latest DTO structure. This assumes that the application can live with the situation were the database contains multiple
 versions of the json document.
 
 ```mermaid
