@@ -1,4 +1,4 @@
-# json-migrator - migration of JSON structures
+# (IN PROGRESS) : json-migrator - migration of JSON structures
 
 | **Stack** | ![](https://github.com/janpk/json-migrator/raw/metrics/badges/java_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/kotlin_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/kotlin_language_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/jackson_version.svg) |
 | --- | --- |
