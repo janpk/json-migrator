@@ -391,8 +391,8 @@
                         <configuration>
                             <!-- Matches the <server> id in ~/.m2/settings.xml holding the Central Portal token. -->
                             <publishingServerId>central</publishingServerId>
-                            <!-- Leave the deployment in the Portal for manual review/publish the first time. -->
-                            <autoPublish>false</autoPublish>
+                            <!-- Publish automatically once the deployment validates (no manual Portal click). -->
+                            <autoPublish>true</autoPublish>
                             <!--
                               Only the engine and its Java facade are published. The demos, the shared test
                               module, and the coverage-aggregation module are build-only. This plugin replaces
