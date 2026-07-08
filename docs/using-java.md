@@ -7,13 +7,9 @@ and `java.util.function` callbacks instead of Kotlin DSL constructs.
 
 ## Dependency
 
-```xml
-<dependency>
-    <groupId>com.mosedotten.json.migrator</groupId>
-    <artifactId>json-migrator-engine-java</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
-```
+Add `json-migrator-engine-java` from Maven Central — same coordinates and version as the engine in
+the [README dependency section](../README.md#dependency), with the artifact id
+`json-migrator-engine-java`.
 
 This transitively brings in `json-migrator-engine` and Jackson. The library **requires Java 17+**
 and **Jackson 3** (see below).

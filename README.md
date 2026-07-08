@@ -1,4 +1,4 @@
-# (IN PROGRESS) : json-migrator - migration of JSON structures
+# json-migrator — migration of JSON structures
 
 | **Stack** | ![](https://github.com/janpk/json-migrator/raw/metrics/badges/java_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/kotlin_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/kotlin_language_version.svg) ![](https://github.com/janpk/json-migrator/raw/metrics/badges/jackson_version.svg) |
 | --- | --- |
@@ -72,3 +72,26 @@ Each operation links to its full description — with before/after examples — 
 | [`custom { ... }`](docs/operations.md#custom) | Escape hatch for migrations that cannot be expressed with the DSL primitives. | `custom { node -> /* arbitrary Jackson code */ }` |
 
 ## Dependency
+
+Published to Maven Central under `com.mosedotten.json.migrator`. Add the engine (Kotlin DSL); Java
+projects that prefer the fluent facade add `json-migrator-engine-java` instead (it brings the engine
+transitively).
+
+Maven:
+
+```xml
+<dependency>
+    <groupId>com.mosedotten.json.migrator</groupId>
+    <artifactId>json-migrator-engine</artifactId>
+    <version>0.9.0</version>
+</dependency>
+```
+
+Gradle (Kotlin DSL):
+
+```kotlin
+implementation("com.mosedotten.json.migrator:json-migrator-engine:0.9.0")
+```
+
+For the Java-friendly `JsonMigrator` facade, swap the artifact id for `json-migrator-engine-java`
+(see [Using json-migrator from Java](docs/using-java.md)).

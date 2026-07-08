@@ -39,7 +39,7 @@ Common exception types:
 | `InvalidJsonPathException` | A path string was malformed; thrown when the operation is built, not during execution. |
 | `IncompleteDslClauseException` | A DSL clause such as `add("/x")` was not completed. |
 | `DslClauseAlreadyCompletedException` | A pending DSL clause was completed more than once. |
-| `MigrationVersionException` | A version problem: a forward gap (no migration advances the document to a step's `from`), a missing version field (and `allowNoVersionField` was not set), a non-integer version field, a `0` version, or non-adjacent `from`/`to`. |
+| `MigrationVersionException` | A version problem: a forward gap (no migration advances the document to a step's `from`), a missing version field (and `allowMissingVersionField` was not set), a non-integer version field, a `0` version, or non-adjacent `from`/`to`. |
 
 ## Version errors
 
@@ -48,7 +48,7 @@ Common exception types:
 | `from must not be 0` | A migration starts at version `0`. | Start at a non-zero version. |
 | `to must not be 0` | A migration targets version `0`. | Target a non-zero version. |
 | `from and to must be adjacent versions` | A migration skips versions. | Split it into adjacent steps, such as `1 -> 2` and `2 -> 3`. |
-| `root node must contain version field 'schemaVersion'` | The document has no configured version field. | Add the field or pass `allowNoVersionField = true` for bootstrap migrations. |
+| `root node must contain version field 'schemaVersion'` | The document has no configured version field. | Add the field or pass `allowMissingVersionField = true` for bootstrap migrations. |
 | `version field 'schemaVersion' must be an integer` | The version field is present but not a JSON integer (e.g. the string `"1"`). | Store the version as an integer. |
 | `root node version field 'schemaVersion' is 5; no migration advances it to from version 6` | The document's version is *before* the first step that could pick it up — a gap in the declared chain. | Add the missing adjacent step(s) so the chain reaches the document's version. |
 

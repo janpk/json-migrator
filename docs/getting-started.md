@@ -5,13 +5,8 @@ migration, and serialize the migrated result.
 
 ## Add the dependency
 
-```xml
-<dependency>
-    <groupId>com.mosedotten.json.migrator</groupId>
-    <artifactId>json-migrator-engine</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
-```
+Add `json-migrator-engine` from Maven Central — see the coordinates and current version in the
+[README dependency section](../README.md#dependency).
 
 The engine is a Kotlin/JVM library and uses Jackson 3 `tools.jackson` types. It requires **Java 17+**
 and **Jackson 3**, and is usable from **Kotlin 2.0+**.
@@ -86,7 +81,7 @@ schema(rootNode, versionField = "version") {
 Missing version fields are rejected by default. Opt in only when you have a clear bootstrap case.
 
 ```kotlin
-schema(rootNode, allowNoVersionField = true) {
+schema(rootNode, allowMissingVersionField = true) {
     migration(1, 2) {
         add("/enabled") with BooleanNode.TRUE
     }

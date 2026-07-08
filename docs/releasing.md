@@ -56,10 +56,13 @@ The push triggers `.github/workflows/release.yml`, where jgitver sets the versio
 whose notes are generated from the commit history since the previous tag — grouped by each commit's
 leading verb (Added / Fixed / Removed / Changed / Documentation), configured in `cliff.toml`.
 
-The `release` profile uses `autoPublish=false`, so the deployment waits in the Portal:
-**central.sonatype.com → Deployments → review → Publish.** After publishing, the artifacts are on
-Maven Central (resolvable in minutes, searchable in ~30). Set `autoPublish=true` later to skip the
-manual step.
+The `release` profile uses `autoPublish=true`, so a deployment that validates cleanly is published
+to Maven Central automatically — no manual Portal step. The artifacts are resolvable in minutes and
+searchable in ~30. Because a published version is **immutable**, make sure `make release` cuts
+exactly the version you intend; there is no drop-and-retry once it goes live. To review before
+publishing instead, set `autoPublish=false` and the deployment will wait in
+**central.sonatype.com → Deployments** for a manual **Publish** click (a validated-but-unpublished
+deployment can be dropped and re-uploaded at the same version).
 
 ### Manual/local release (fallback)
 
