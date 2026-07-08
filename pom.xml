@@ -393,6 +393,18 @@
                             <publishingServerId>central</publishingServerId>
                             <!-- Leave the deployment in the Portal for manual review/publish the first time. -->
                             <autoPublish>false</autoPublish>
+                            <!--
+                              Only the engine and its Java facade are published. The demos, the shared test
+                              module, and the coverage-aggregation module are build-only. This plugin replaces
+                              maven-deploy-plugin, so `maven.deploy.skip` has no effect here — modules are
+                              dropped from the bundle explicitly.
+                            -->
+                            <excludeArtifacts>
+                                <artifact>json-migrator-demo-kotlin</artifact>
+                                <artifact>json-migrator-demo-java</artifact>
+                                <artifact>json-migrator-engine-test</artifact>
+                                <artifact>json-migrator-report</artifact>
+                            </excludeArtifacts>
                         </configuration>
                     </plugin>
                 </plugins>

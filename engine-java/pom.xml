@@ -10,6 +10,9 @@
     <artifactId>json-migrator-engine-java</artifactId>
     <packaging>jar</packaging>
 
+    <name>json-migrator-engine-java</name>
+    <description>Java-friendly facade over the json-migrator engine.</description>
+
     <dependencies>
         <dependency>
             <groupId>com.mosedotten.json.migrator</groupId>

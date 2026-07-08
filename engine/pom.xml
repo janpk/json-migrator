@@ -10,6 +10,9 @@
     <artifactId>json-migrator-engine</artifactId>
     <packaging>jar</packaging>
 
+    <name>json-migrator-engine</name>
+    <description>Kotlin DSL engine for migrating JSON documents between schema versions on Jackson 3.</description>
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

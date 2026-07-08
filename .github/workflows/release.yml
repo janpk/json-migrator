@@ -33,8 +33,6 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - run: gpg --list-secret-keys --keyid-format=long
-
       # jgitver derives the version from git, but on a tag build the tag name IS the version, so we
       # pin it explicitly (`jgitver.use-version`). This is deterministic regardless of how the runner's
       # detached-tag checkout looks to jgitver — a plain build between tags still gets the derived
