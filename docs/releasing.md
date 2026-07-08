@@ -52,7 +52,9 @@ make release VERSION=1.2.3
 `make release` checks the working tree is clean, you're on an up-to-date `main`, `VERSION` is
 SemVer, and the tag doesn't already exist — then creates the annotated tag `1.2.3` and pushes it.
 The push triggers `.github/workflows/release.yml`, where jgitver sets the version from the tag and
-`./mvnw -Prelease deploy` signs and uploads the bundle.
+`./mvnw -Prelease deploy` signs and uploads the bundle. The workflow then creates a **GitHub Release**
+whose notes are generated from the commit history since the previous tag — grouped by each commit's
+leading verb (Added / Fixed / Removed / Changed / Documentation), configured in `cliff.toml`.
 
 The `release` profile uses `autoPublish=false`, so the deployment waits in the Portal:
 **central.sonatype.com → Deployments → review → Publish.** After publishing, the artifacts are on

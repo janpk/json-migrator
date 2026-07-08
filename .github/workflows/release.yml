@@ -13,10 +13,12 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create the GitHub release
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 0 # jgitver derives the version from the tag and full history
+          fetch-depth: 0 # jgitver derives the version from the tag; git-cliff needs the history
 
       - uses: actions/setup-java@v5
         with:
@@ -37,3 +39,15 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      # Release notes from commit history (this project uses imperative commits, not PRs; see cliff.toml).
+      - name: Generate release notes
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          πargs: --latest --strip all --output RELEASE_NOTES.md
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file RELEASE_NOTES.md --verify-tag
